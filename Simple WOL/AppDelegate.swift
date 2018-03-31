@@ -12,10 +12,26 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    let awakeHandler = AwakeHandler()
+    var tableViewController: TableViewController?
+    
+    //helper function to set tableViewController reference
+    func getTableViewControler() -> TableViewController? {
+        if let viewControllers = window?.rootViewController?.childViewControllers {
+            for viewController in viewControllers {
+                if viewController is TableViewController {
+                    return viewController as? TableViewController
+                }
+            }
+        }
+        return nil
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        tableViewController = getTableViewControler()
+        tableViewController?.setButtonCallback(buttonPressedDeleagte: awakeHandler)
+        
         return true
     }
 
