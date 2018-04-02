@@ -9,11 +9,13 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ViewControllerProtocol {
 
     var window: UIWindow?
     let awakeHandler = AwakeHandler()
     var tableViewController: TableViewController?
+    var editViewController: EditViewController?
+
     
     //helper function to set tableViewController reference
     func getTableViewControler() -> TableViewController? {
@@ -29,9 +31,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        tableViewController = getTableViewControler()
-        tableViewController?.setButtonCallback(buttonPressedDeleagte: awakeHandler)
         
+        //collect view controllers together
+        tableViewController = getTableViewControler()
+        editViewController = window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "Edit") as? EditViewController
+
+        //connect protocols
+        tableViewController?.setProtocols(buttonDelegate: awakeHandler, switchViews: self)
+        editViewController?.setProtocols(switchViews: self)
+
         return true
     }
 
@@ -56,7 +64,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+}
 
+extension AppDelegate {
+
+    func switchTo(viewController: ViewController, element: Element?) {
+        if viewController == .EditView {
+            if let vc = editViewController {
+                vc.setElementToEdit(element: element)
+                window?.rootViewController?.present(vc, animated:true, completion:nil)
+            }
+        } else if viewController == .TableView {
+            if let vc = tableViewController {
+                if let element = element {
+                    vc.editOrNewElement(newElement: element)
+                }
+                window?.rootViewController?.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
 
 }
 

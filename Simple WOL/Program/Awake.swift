@@ -7,9 +7,9 @@
 
 import Foundation
 
-class AwakeHandler : ButtonProtocol {
+class AwakeHandler : AwakeProtocol {
     
-    internal func buttonPress(macAddr: String, finishedHandler: @escaping(Bool) -> Void) {
+    func awake(macAddr: String, finishedHandler: @escaping(Bool) -> Void) {
         //e.g MAC = "94:C6:91:15:E6:D1"
         let computer = Awake.Device(MAC: macAddr, BroadcastAddr: "255.255.255.0", Port: 9)
         _ = Awake.target(device: computer)

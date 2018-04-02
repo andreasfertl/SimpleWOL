@@ -9,16 +9,24 @@
 import Foundation
 import UIKit
 
+enum ButtonType: Int
+{
+    case switchButton
+    case editButton
+}
+
 class Element {
     let id: Int
-    let name: String
-    let macAddr: String
+    var name: String
+    var macAddr: String
+    var buttonType: ButtonType
     var uiSwitch: UISwitch
     
-    init(id: Int, name: String, macAddr: String, uiSwitch: UISwitch) {
+    init(id: Int, name: String, macAddr: String, buttonType: ButtonType, uiSwitch: UISwitch) {
         self.id = id
         self.name = name
         self.macAddr = macAddr
+        self.buttonType = buttonType
         self.uiSwitch = uiSwitch
     }
 }

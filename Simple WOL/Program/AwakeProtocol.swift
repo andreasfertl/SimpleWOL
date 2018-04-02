@@ -1,5 +1,5 @@
 //
-//  ButtonProtocol.swift
+//  AwakeProtocol.swift
 //  Simple WOL
 //
 //  Created by Andreas Fertl on 30.03.18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ButtonProtocol: class {
-    func buttonPress(macAddr: String, finishedHandler: @escaping(Bool) -> Void)
+protocol AwakeProtocol: class {
+    func awake(macAddr: String, finishedHandler: @escaping(Bool) -> Void)
 }
 

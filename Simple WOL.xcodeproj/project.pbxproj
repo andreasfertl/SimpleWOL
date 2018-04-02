@@ -14,7 +14,9 @@
 		26507244206F8F26007A3F6F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26507243206F8F26007A3F6F /* TableViewController.swift */; };
 		26507247206F90B2007A3F6F /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26507246206F90B2007A3F6F /* Element.swift */; };
 		26507249206F90D0007A3F6F /* Awake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26507248206F90D0007A3F6F /* Awake.swift */; };
-		2650724B206F90E4007A3F6F /* ButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2650724A206F90E4007A3F6F /* ButtonProtocol.swift */; };
+		2650724B206F90E4007A3F6F /* AwakeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2650724A206F90E4007A3F6F /* AwakeProtocol.swift */; };
+		2683A8F12072716A00A03E69 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2683A8F02072716A00A03E69 /* EditViewController.swift */; };
+		2683A8F3207284AC00A03E69 /* ViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2683A8F2207284AC00A03E69 /* ViewControllerProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +29,9 @@
 		26507243206F8F26007A3F6F /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		26507246206F90B2007A3F6F /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		26507248206F90D0007A3F6F /* Awake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Awake.swift; sourceTree = "<group>"; };
-		2650724A206F90E4007A3F6F /* ButtonProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonProtocol.swift; sourceTree = "<group>"; };
+		2650724A206F90E4007A3F6F /* AwakeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwakeProtocol.swift; sourceTree = "<group>"; };
+		2683A8F02072716A00A03E69 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		2683A8F2207284AC00A03E69 /* ViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				26507243206F8F26007A3F6F /* TableViewController.swift */,
+				2683A8F02072716A00A03E69 /* EditViewController.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -92,7 +97,8 @@
 			children = (
 				26507246206F90B2007A3F6F /* Element.swift */,
 				26507248206F90D0007A3F6F /* Awake.swift */,
-				2650724A206F90E4007A3F6F /* ButtonProtocol.swift */,
+				2650724A206F90E4007A3F6F /* AwakeProtocol.swift */,
+				2683A8F2207284AC00A03E69 /* ViewControllerProtocol.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -171,8 +177,10 @@
 			files = (
 				26507230206F8D3C007A3F6F /* AppDelegate.swift in Sources */,
 				26507244206F8F26007A3F6F /* TableViewController.swift in Sources */,
+				2683A8F12072716A00A03E69 /* EditViewController.swift in Sources */,
 				26507247206F90B2007A3F6F /* Element.swift in Sources */,
-				2650724B206F90E4007A3F6F /* ButtonProtocol.swift in Sources */,
+				2683A8F3207284AC00A03E69 /* ViewControllerProtocol.swift in Sources */,
+				2650724B206F90E4007A3F6F /* AwakeProtocol.swift in Sources */,
 				26507249206F90D0007A3F6F /* Awake.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
