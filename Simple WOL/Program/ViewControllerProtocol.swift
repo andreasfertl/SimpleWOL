@@ -14,6 +14,6 @@ enum ViewController: Int {
 }
 
 protocol ViewControllerProtocol: class {
-    func switchTo(viewController: ViewController, element: Element?) //with an optional element to handle
+    func switchTo(viewController: ViewController, element: Element?, newElement: Bool) //with an optional element to handle
 }
 

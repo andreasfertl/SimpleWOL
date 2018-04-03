@@ -68,10 +68,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ViewControllerProtocol {
 
 extension AppDelegate {
 
-    func switchTo(viewController: ViewController, element: Element?) {
+    func switchTo(viewController: ViewController, element: Element?, newElement:  Bool) {
         if viewController == .EditView {
             if let vc = editViewController {
-                vc.setElementToEdit(element: element)
+                vc.setElementToEdit(element: element, newElement: newElement)
                 window?.rootViewController?.present(vc, animated:true, completion:nil)
             }
         } else if viewController == .TableView {

@@ -59,7 +59,7 @@ class TableViewController: UITableViewController {
     }
     
     @IBAction func NewButton(_ sender: Any) {
-        switchViews?.switchTo(viewController: .EditView, element: Element(id: genNextId(), name: "name", macAddr: "00:11:22:33:44:55"))
+        switchViews?.switchTo(viewController: .EditView, element: Element(id: genNextId(), name: "name", macAddr: "00:11:22:33:44:55"), newElement: true)
     }
 
     
@@ -95,7 +95,7 @@ class TableViewController: UITableViewController {
         if indexPath.row < cellElements.count {
             let elementToEdit = cellElements[indexPath.row]
             if elementToEdit.buttonType == .editButton {
-                switchViews?.switchTo(viewController: .EditView, element: elementToEdit)
+                switchViews?.switchTo(viewController: .EditView, element: elementToEdit, newElement: false)
             }
         }
     }

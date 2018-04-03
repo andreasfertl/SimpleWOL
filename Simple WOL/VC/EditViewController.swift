@@ -8,10 +8,11 @@
 
 import UIKit
 
-class EditViewController: UIViewController {
+class EditViewController: UIViewController, UITextFieldDelegate {
 
     var elementToEdit: Element?
     var switchViews: ViewControllerProtocol?
+    var newElement: Bool = false
 
     @IBOutlet weak var uiNameTextBox: UITextField!
     @IBOutlet weak var uiMACaddrTextBox: UITextField!
@@ -19,6 +20,8 @@ class EditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        uiNameTextBox.delegate = self
+        uiMACaddrTextBox.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -27,9 +30,18 @@ class EditViewController: UIViewController {
     }
 
     @IBAction func cancelButon(_ sender: Any) {
-        switchViews?.switchTo(viewController: .TableView, element: nil)
+        switchViews?.switchTo(viewController: .TableView, element: nil, newElement: false)
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if newElement {
+            if textField == uiNameTextBox {
+                uiNameTextBox.text = ""
+            } else if textField == uiMACaddrTextBox {
+                uiMACaddrTextBox.text = ""
+            }
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -39,11 +51,11 @@ class EditViewController: UIViewController {
         if let element = elementToEdit {
             if let name = uiNameTextBox.text, let macAddr = uiMACaddrTextBox.text  {
                 let elmentToSave = Element(id: element.id, name: name, macAddr: macAddr)
-                switchViews?.switchTo(viewController: .TableView, element: elmentToSave)
+                switchViews?.switchTo(viewController: .TableView, element: elmentToSave, newElement: false)
                 return
             }
         }
-        switchViews?.switchTo(viewController: .TableView, element: nil)
+        switchViews?.switchTo(viewController: .TableView, element: nil, newElement: false)
     }
 
 
@@ -56,8 +68,9 @@ extension EditViewController {
         self.switchViews = switchViews
     }
 
-    func setElementToEdit(element: Element?) {
+    func setElementToEdit(element: Element?, newElement: Bool) {
         if let element = element {
+            self.newElement = newElement
             elementToEdit = Element(id: element.id, name: element.name, macAddr: element.macAddr)
         }
     }
