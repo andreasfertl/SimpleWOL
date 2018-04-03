@@ -10,38 +10,42 @@ import Foundation
 
 protocol ConfigurationProtocol {
     func getConfiguration() -> [Element]?
-    func saveConfig(element: Element?)
+    func saveConfig(element: Element?, index: Int, countOf: Int)
 }
 
 class Configuration : ConfigurationProtocol {
 
     let userSettings = UserDefaults.standard
-    var lastUsedId = 0
-    let lastUsedIdKeyword = "lastUsedId"
+    var numberOfElements = 0
+    let numberOfElementsKeyword = "numberOfElements"
 
-    func saveConfig(element: Element?) {
+    func saveConfig(element: Element?, index: Int, countOf: Int) {
         if let element = element {
             //converting our element to a string representation to be able to store it
-            let keyString = String(element.id)
-            let array = [element.name, element.macAddr]
-            userSettings.set(array, forKey: keyString)
+            let array = [String(element.id), element.name, element.macAddr]
+            let idxString = String(index)
+            userSettings.set(array, forKey: idxString)
             
-            //keep our last used id up to date
-            if element.id > lastUsedId {
-                userSettings.set(element.id, forKey: lastUsedIdKeyword)
-            }
+            //keep our number of elements up to data, culd have been changed
+            userSettings.set(countOf, forKey: numberOfElementsKeyword)
         }
     }
     
-    func retriveUserSetting(id: Int) -> Element? {
-        let keyString = String(id)
+    func retriveUserSetting(idx: Int) -> Element? {
+        let keyString = String(idx)
 
         let savedArray = userSettings.object(forKey: keyString) as? [String]
         if let savedArray = savedArray {
-            if savedArray.count == 2 {
-                let name = savedArray[0]
-                let macAddr = savedArray[1]
-                return Element(id: id, name: name, macAddr: macAddr)
+            if savedArray.count == 3 {
+                let id :Int? = Int(savedArray[0])
+                let name = savedArray[1]
+                let macAddr = savedArray[2]
+                if let id = id {
+                    return Element(id: id, name: name, macAddr: macAddr)
+                } else {
+                    return nil
+
+                }
             }
         }
         return nil
@@ -50,17 +54,17 @@ class Configuration : ConfigurationProtocol {
     func getConfiguration() -> [Element]? {
         var configuration : [Element] = []
         
-        let lastUsedId = userSettings.integer(forKey: lastUsedIdKeyword)
-        if lastUsedId == 0 { //special case - no configuration stored
+        let numberOfElements = userSettings.integer(forKey: numberOfElementsKeyword)
+        if numberOfElements == 0 { //special case - no configuration stored
             return nil
         }
         
-        var id = 1
-        while id <= lastUsedId {
-            if let element = retriveUserSetting(id: id) {
+        var idx = 0
+        while idx < numberOfElements {
+            if let element = retriveUserSetting(idx: idx) {
                 configuration.append(element)
             }
-            id += 1
+            idx += 1
         }
         
         if configuration.count > 0 {

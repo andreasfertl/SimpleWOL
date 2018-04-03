@@ -116,13 +116,15 @@ extension TableViewController {
             //there is an already exisiting one -> just update
             let updated = UpdateElementById(newElement.id, name: newElement.name, macAddr: newElement.macAddr)
             if updated {
-                configuration?.saveConfig(element: findElementById(newElement.id))
+                let retVal = findElementAndIdxById(newElement.id)
+                configuration?.saveConfig(element: retVal.element, index: retVal.idx, countOf: cellElements.count )
             }
         } else {
             //doesn´t exist - add the new one
             addElement(id: newElement.id, name: newElement.name, macAddr: newElement.macAddr, buttonType: buttonMode)
             //and save
-            configuration?.saveConfig(element: findElementById(newElement.id))
+            let retVal = findElementAndIdxById(newElement.id)
+            configuration?.saveConfig(element: retVal.element, index: retVal.idx, countOf: cellElements.count )
         }
         
         table.reloadData()
@@ -146,6 +148,16 @@ extension TableViewController {
         }
         return nil
     }
+
+    internal func findElementAndIdxById(_ id: Int) -> (element: Element?, idx: Int) {
+        for index in 0..<cellElements.count {
+            if cellElements[index].id == id {
+                return (cellElements[index], index)
+            }
+        }
+        return (nil, 0)
+    }
+
     
     internal func UpdateElementById(_ id: Int, name: String, macAddr: String) -> Bool {
         for index in 0..<cellElements.count {
