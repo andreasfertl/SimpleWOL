@@ -28,6 +28,7 @@ class EditViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         uiNameTextBox.text = elementToEdit?.name
         uiMACaddrTextBox.text = elementToEdit?.macAddr
+        uiFormatLabel.isHidden = true
         if newElement {
             uiTitle.text = "New host"
         } else {
@@ -56,9 +57,16 @@ class EditViewController: UIViewController, UITextFieldDelegate {
     @IBAction func saveButton(_ sender: Any) {
         if let element = elementToEdit {
             if let name = uiNameTextBox.text, let macAddr = uiMACaddrTextBox.text  {
-                let elmentToSave = Element(id: element.id, name: name, macAddr: macAddr)
-                switchViews?.switchTo(viewController: .TableView, element: elmentToSave, newElement: false)
-                return
+                let macAddr = macAddr.uppercased()
+                if validateMACAddrInput(macAddr: macAddr){
+                    let elmentToSave = Element(id: element.id, name: name, macAddr: macAddr)
+                    switchViews?.switchTo(viewController: .TableView, element: elmentToSave, newElement: false)
+                    return
+                } else { // not ok
+                    uiFormatLabel.text = "Wrong format, use: 00:11:22:33:44:AA"
+                    uiFormatLabel.isHidden = false
+                    return
+                }
             }
         }
         switchViews?.switchTo(viewController: .TableView, element: nil, newElement: false)
@@ -81,8 +89,7 @@ extension EditViewController {
         }
     }
     
-    func validateMACAddrInput(macAddr: String) -> Bool {
-        
+    func validateMACAddrInput(macAddr: String) -> Bool {        
         let components = macAddr.components(separatedBy: ":")
         let numbers = components.map { return strtoul($0, nil, 16) }
         if numbers.count != 6 {
