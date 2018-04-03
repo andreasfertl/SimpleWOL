@@ -117,14 +117,14 @@ extension TableViewController {
             let updated = UpdateElementById(newElement.id, name: newElement.name, macAddr: newElement.macAddr)
             if updated {
                 let retVal = findElementAndIdxById(newElement.id)
-                configuration?.saveConfig(element: retVal.element, index: retVal.idx, countOf: cellElements.count )
+                configuration?.saveConfig(element: retVal.element)
             }
         } else {
             //doesn´t exist - add the new one
             addElement(id: newElement.id, name: newElement.name, macAddr: newElement.macAddr, buttonType: buttonMode)
             //and save
             let retVal = findElementAndIdxById(newElement.id)
-            configuration?.saveConfig(element: retVal.element, index: retVal.idx, countOf: cellElements.count )
+            configuration?.saveConfig(element: retVal.element)
         }
         
         table.reloadData()

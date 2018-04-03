@@ -10,24 +10,34 @@ import Foundation
 
 protocol ConfigurationProtocol {
     func getConfiguration() -> [Element]?
-    func saveConfig(element: Element?, index: Int, countOf: Int)
+    func saveConfig(element: Element?)
 }
 
 class Configuration : ConfigurationProtocol {
 
     let userSettings = UserDefaults.standard
-    var numberOfElements = 0
+    var configElements : [Element] = []
     let numberOfElementsKeyword = "numberOfElements"
 
-    func saveConfig(element: Element?, index: Int, countOf: Int) {
+    func saveConfig(element: Element?) {
         if let element = element {
-            //converting our element to a string representation to be able to store it
             let array = [String(element.id), element.name, element.macAddr]
-            let idxString = String(index)
+
+            for idx in 0..<configElements.count {
+                if configElements[idx].id == element.id { //found an already existing with this id -> just update
+                    //converting our element to a string representation to be able to store it
+                    let idxString = String(idx)
+                    userSettings.set(array, forKey: idxString)
+                    return
+                }
+            }
+            //didn´t find this one - so must be new -> add an additional one
+            configElements.append(element)
+            let idxString = String(configElements.count)
             userSettings.set(array, forKey: idxString)
             
-            //keep our number of elements up to data, culd have been changed
-            userSettings.set(countOf, forKey: numberOfElementsKeyword)
+            //and we need to keep our number of elements up to data, culd have been changed
+            userSettings.set(configElements.count, forKey: numberOfElementsKeyword)
         }
     }
     
@@ -52,23 +62,20 @@ class Configuration : ConfigurationProtocol {
     }
     
     func getConfiguration() -> [Element]? {
-        var configuration : [Element] = []
         
         let numberOfElements = userSettings.integer(forKey: numberOfElementsKeyword)
         if numberOfElements == 0 { //special case - no configuration stored
             return nil
         }
         
-        var idx = 0
-        while idx < numberOfElements {
+        for idx in 0..<numberOfElements {
             if let element = retriveUserSetting(idx: idx) {
-                configuration.append(element)
+                configElements.append(element)
             }
-            idx += 1
         }
         
-        if configuration.count > 0 {
-            return configuration
+        if configElements.count > 0 {
+            return configElements
         } else {
             return nil
         }
