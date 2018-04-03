@@ -14,6 +14,7 @@ class EditViewController: UIViewController, UITextFieldDelegate {
     var switchViews: ViewControllerProtocol?
     var newElement: Bool = false
 
+    @IBOutlet weak var uiTitle: UILabel!
     @IBOutlet weak var uiNameTextBox: UITextField!
     @IBOutlet weak var uiMACaddrTextBox: UITextField!
     @IBOutlet weak var uiFormatLabel: UILabel!
@@ -27,6 +28,11 @@ class EditViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         uiNameTextBox.text = elementToEdit?.name
         uiMACaddrTextBox.text = elementToEdit?.macAddr
+        if newElement {
+            uiTitle.text = "New host"
+        } else {
+            uiTitle.text = "Edit host"
+        }
     }
 
     @IBAction func cancelButon(_ sender: Any) {

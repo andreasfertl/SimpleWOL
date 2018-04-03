@@ -130,6 +130,7 @@
                         <outlet property="uiFormatLabel" destination="7xS-do-KWK" id="cZg-MF-DtD"/>
                         <outlet property="uiMACaddrTextBox" destination="qyf-uT-LsF" id="Fcp-7M-ZeG"/>
                         <outlet property="uiNameTextBox" destination="quY-lk-ZcB" id="ce0-2Y-g2f"/>
+                        <outlet property="uiTitle" destination="9FL-Kh-eya" id="rLY-U3-v6M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E4j-Qv-CZ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
