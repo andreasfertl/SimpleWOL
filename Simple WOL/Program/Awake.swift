@@ -11,7 +11,7 @@ class AwakeHandler : AwakeProtocol {
     
     func awake(macAddr: String, finishedHandler: @escaping(Bool) -> Void) {
         //e.g MAC = "94:C6:91:15:E6:D1"
-        let computer = Awake.Device(MAC: macAddr, BroadcastAddr: "255.255.255.0", Port: 9)
+        let computer = Awake.Device(MAC: macAddr, BroadcastAddr: "255.255.255.255", Port: 9)
         _ = Awake.target(device: computer)
         
         Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in

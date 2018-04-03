@@ -14,6 +14,7 @@ class TableViewController: UITableViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     
     var cellElements: [Element] = []
+    var configuration: ConfigurationProtocol?
     var awake: AwakeProtocol?
     var switchViews: ViewControllerProtocol?
     var buttonMode: ButtonType = ButtonType.switchButton
@@ -23,11 +24,17 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditButton(_:)))
-
-        addElement(id: 1, name: "MacbookAir",  macAddr: "84:38:35:55:51:66")
-        addElement(id: 2, name: "Macbook",     macAddr: "DC:A9:04:73:1E:4F")
-        addElement(id: 3, name: "DeveloperPc", macAddr: "94:C6:91:15:E6:D1")
-        addElement(id: 4, name: "AppleTV",     macAddr: "D0:03:4B:EA:0A:FA")
+        
+        if let configuration = configuration?.getConfiguration() {
+            for element in configuration {
+               addElement(id: element.id, name: element.name, macAddr: element.macAddr)
+            }
+        }
+        
+        //addElement(id: 1, name: "DeveloperPc", macAddr: "94:C6:91:15:E6:D1")
+        //addElement(id: 2, name: "MacbookAir",  macAddr: "84:38:35:55:51:66")
+        //addElement(id: 3, name: "Macbook",     macAddr: "DC:A9:04:73:1E:4F")
+        //addElement(id: 4, name: "AppleTV",     macAddr: "D0:03:4B:EA:0A:FA")
     }
 
     @IBAction func EditButton(_ sender: Any) {
@@ -36,10 +43,12 @@ class TableViewController: UITableViewController {
         if buttonMode == .switchButton {
             buttonMode = .editButton
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(EditButton(_:)))
+            navigationItem.leftBarButtonItem  = UIBarButtonItem(title: "New", style: .plain, target: self, action: #selector(NewButton(_:)))
         } else {
             newButtonMode = .switchButton
             buttonMode = newButtonMode
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditButton(_:)))
+            navigationItem.leftBarButtonItem = nil
         }
         
         for index in 0..<cellElements.count {
@@ -49,11 +58,16 @@ class TableViewController: UITableViewController {
         table.reloadData()
     }
     
+    @IBAction func NewButton(_ sender: Any) {
+        switchViews?.switchTo(viewController: .EditView, element: Element(id: genNextId(), name: "name", macAddr: "00:11:22:33:44:55"))
+    }
+
+    
     @objc internal func switchChanged(_ sender : UISwitch!) {
         //id transported in sender
         if let element = findElementById(sender.tag) {
             awake?.awake(macAddr: element.macAddr, finishedHandler: { (finished: Bool) -> Void in
-                element.uiSwitch.setOn(false, animated: true)
+                element.uiSwitch!.setOn(false, animated: true)
             })
         }
     }
@@ -90,19 +104,25 @@ class TableViewController: UITableViewController {
 
 extension TableViewController {
     
-    func setProtocols(buttonDelegate: AwakeProtocol, switchViews: ViewControllerProtocol) {
+    func setProtocols(configuration: ConfigurationProtocol?, buttonDelegate: AwakeProtocol, switchViews: ViewControllerProtocol) {
         self.awake = buttonDelegate
         self.switchViews = switchViews
+        self.configuration = configuration
     }
 
     func editOrNewElement(newElement: Element) {
         //handle new element or edit
         if findElementById(newElement.id) != nil {
             //there is an already exisiting one -> just update
-            _ = UpdateElementById(newElement.id, name: newElement.name, macAddr: newElement.macAddr)
+            let updated = UpdateElementById(newElement.id, name: newElement.name, macAddr: newElement.macAddr)
+            if updated {
+                configuration?.saveConfig(element: findElementById(newElement.id))
+            }
         } else {
             //doesn´t exist - add the new one
-            addElement(id: genNextId(), name: newElement.name, macAddr: newElement.macAddr)
+            addElement(id: newElement.id, name: newElement.name, macAddr: newElement.macAddr, buttonType: buttonMode)
+            //and save
+            configuration?.saveConfig(element: findElementById(newElement.id))
         }
         
         table.reloadData()
@@ -112,7 +132,12 @@ extension TableViewController {
     {
         cellElements.append(Element(id: id, name: name, macAddr: macAddr, buttonType: ButtonType.switchButton, uiSwitch: generateSwitch(id: id)))
     }
-    
+
+    internal func addElement(id: Int, name: String, macAddr: String, buttonType: ButtonType)
+    {
+        cellElements.append(Element(id: id, name: name, macAddr: macAddr, buttonType: buttonType, uiSwitch: generateSwitch(id: id)))
+    }
+
     internal func findElementById(_ id: Int) -> Element? {
         for index in 0..<cellElements.count {
             if cellElements[index].id == id {
@@ -125,16 +150,23 @@ extension TableViewController {
     internal func UpdateElementById(_ id: Int, name: String, macAddr: String) -> Bool {
         for index in 0..<cellElements.count {
             if cellElements[index].id == id {
-                cellElements[index].name = name
-                cellElements[index].macAddr = macAddr
-                return true
+                var changed = false
+                if cellElements[index].name != name {
+                    cellElements[index].name = name
+                    changed = true
+                }
+                if cellElements[index].macAddr != macAddr {
+                    cellElements[index].macAddr = macAddr
+                    changed = true
+                }
+                return changed
             }
         }
         return false
     }
     
     internal func genNextId() -> Int {
-        return cellElements.count
+        return cellElements.count + 1
     }
 
     

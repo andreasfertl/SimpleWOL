@@ -15,7 +15,6 @@ class EditViewController: UIViewController {
 
     @IBOutlet weak var uiNameTextBox: UITextField!
     @IBOutlet weak var uiMACaddrTextBox: UITextField!
-    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var uiFormatLabel: UILabel!
     
     override func viewDidLoad() {
@@ -27,6 +26,11 @@ class EditViewController: UIViewController {
         uiMACaddrTextBox.text = elementToEdit?.macAddr
     }
 
+    @IBAction func cancelButon(_ sender: Any) {
+        switchViews?.switchTo(viewController: .TableView, element: nil)
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -34,7 +38,7 @@ class EditViewController: UIViewController {
     @IBAction func saveButton(_ sender: Any) {
         if let element = elementToEdit {
             if let name = uiNameTextBox.text, let macAddr = uiMACaddrTextBox.text  {
-                let elmentToSave = Element(id: element.id, name: name, macAddr: macAddr, buttonType: element.buttonType, uiSwitch: element.uiSwitch)
+                let elmentToSave = Element(id: element.id, name: name, macAddr: macAddr)
                 switchViews?.switchTo(viewController: .TableView, element: elmentToSave)
                 return
             }
@@ -42,9 +46,7 @@ class EditViewController: UIViewController {
         switchViews?.switchTo(viewController: .TableView, element: nil)
     }
 
-    @IBAction func cancelButton(_ sender: Any) {
-        switchViews?.switchTo(viewController: .TableView, element: nil)
-    }
+
 
 }
 
@@ -56,7 +58,7 @@ extension EditViewController {
 
     func setElementToEdit(element: Element?) {
         if let element = element {
-            elementToEdit = Element(id: element.id, name: element.name.copy() as! String, macAddr: element.macAddr.copy() as! String, buttonType: element.buttonType, uiSwitch: element.uiSwitch)
+            elementToEdit = Element(id: element.id, name: element.name, macAddr: element.macAddr)
         }
     }
     

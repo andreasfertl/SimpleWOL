@@ -13,14 +13,15 @@ enum ButtonType: Int
 {
     case switchButton
     case editButton
+    case deleteButton
 }
 
-class Element {
-    let id: Int
+struct Element {
+    let id: Int //a 1 based index to handle storing of parameters
     var name: String
     var macAddr: String
-    var buttonType: ButtonType
-    var uiSwitch: UISwitch
+    var buttonType: ButtonType?
+    var uiSwitch: UISwitch?
     
     init(id: Int, name: String, macAddr: String, buttonType: ButtonType, uiSwitch: UISwitch) {
         self.id = id
@@ -28,6 +29,12 @@ class Element {
         self.macAddr = macAddr
         self.buttonType = buttonType
         self.uiSwitch = uiSwitch
+    }
+
+    init(id: Int, name: String, macAddr: String) {
+        self.id = id
+        self.name = name
+        self.macAddr = macAddr
     }
 }
 

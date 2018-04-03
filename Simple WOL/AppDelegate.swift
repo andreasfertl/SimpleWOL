@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ViewControllerProtocol {
     let awakeHandler = AwakeHandler()
     var tableViewController: TableViewController?
     var editViewController: EditViewController?
-
+    var configuration = Configuration()
     
     //helper function to set tableViewController reference
     func getTableViewControler() -> TableViewController? {
@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ViewControllerProtocol {
         editViewController = window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "Edit") as? EditViewController
 
         //connect protocols
-        tableViewController?.setProtocols(buttonDelegate: awakeHandler, switchViews: self)
+        tableViewController?.setProtocols(configuration: configuration, buttonDelegate: awakeHandler, switchViews: self)
         editViewController?.setProtocols(switchViews: self)
 
         return true

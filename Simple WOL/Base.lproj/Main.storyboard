@@ -105,17 +105,6 @@
                                     <action selector="saveButton:" destination="0ca-w4-nc7" eventType="touchUpInside" id="n98-zs-yiU"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pet-dy-ejW">
-                                <rect key="frame" x="16" y="293" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Cancel">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="cancelButton:" destination="0ca-w4-nc7" eventType="touchUpInside" id="8h8-vL-asr"/>
-                                    <action selector="saveButton:" destination="0ca-w4-nc7" eventType="touchUpInside" id="hMv-yY-o1K"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Format" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7xS-do-KWK">
                                 <rect key="frame" x="137" y="205" width="222" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -123,12 +112,21 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ZN-v5-7Lg">
+                                <rect key="frame" x="16" y="301" width="343" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelButon:" destination="0ca-w4-nc7" eventType="touchUpInside" id="FgR-uQ-tqn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="g9h-p0-7pS"/>
                     </view>
                     <connections>
-                        <outlet property="cancelButton" destination="pet-dy-ejW" id="7Ig-tp-AME"/>
                         <outlet property="uiFormatLabel" destination="7xS-do-KWK" id="cZg-MF-DtD"/>
                         <outlet property="uiMACaddrTextBox" destination="qyf-uT-LsF" id="Fcp-7M-ZeG"/>
                         <outlet property="uiNameTextBox" destination="quY-lk-ZcB" id="ce0-2Y-g2f"/>
@@ -136,7 +134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E4j-Qv-CZ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1126" y="128"/>
+            <point key="canvasLocation" x="1125.5999999999999" y="127.28635682158921"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="sXG-0L-LQZ">
