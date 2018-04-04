@@ -23,7 +23,9 @@ class TableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.rowHeight = 75.0
         table.allowsSelection = false
+        
         navigationController?.navigationBar.tintColor = UIColor.black
         navigationController?.navigationBar.barStyle = UIBarStyle.default
         
