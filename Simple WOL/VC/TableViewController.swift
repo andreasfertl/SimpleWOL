@@ -140,6 +140,7 @@ class TableViewController: UITableViewController {
             if indexPath.row < cellElements.count {
                 configuration?.deleteConfig(element: cellElements[indexPath.row], idx: indexPath.row)
                 cellElements.remove(at: indexPath.row)
+                invokedRequest.remove(at: indexPath.row)
                 table.reloadData()
             }
         }
