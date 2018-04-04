@@ -10,8 +10,8 @@ import Foundation
 
 protocol ConfigurationProtocol {
     func getConfiguration() -> [Element]?
-    func saveConfig(element: Element?)
-    //func deleteConfig(element: Element)
+    func saveConfig(element: Element?, idx: Int)
+    func deleteConfig(element: Element, idx: Int)
 }
 
 class Configuration : ConfigurationProtocol {
@@ -19,62 +19,52 @@ class Configuration : ConfigurationProtocol {
     let userSettings = UserDefaults.standard
     var configElements : [Element] = []
     let numberOfElementsKeyword = "numberOfElements"
-
-    func saveConfig(element: Element?) {
-        if let element = element {
-            let array = [String(element.id), element.name, element.macAddr]
-
-            for idx in 0..<configElements.count {
-                if configElements[idx].id == element.id { //found an already existing with this id -> just update
-                    //converting our element to a string representation to be able to store it
-                    let idxString = String(idx)
-                    userSettings.set(array, forKey: idxString)
-                    return
-                }
-            }
-            //didn´t find this one - so must be new -> add an additional one
-            configElements.append(element)
-            let idxString = String(configElements.count)
-            userSettings.set(array, forKey: idxString)
+    
+    func storeAllElements()  {
+        //store all elements
+        for index in 0 ..< configElements.count {
+            let array = [configElements[index].name, configElements[index].macAddr]
+            let idxString = String(index)
             
-            //and we need to keep our number of elements up to data, culd have been changed
-            userSettings.set(configElements.count, forKey: numberOfElementsKeyword)
+            userSettings.set(array, forKey: idxString)
+        }
+        
+        //and we need to keep our number of elements up to data, could been changed
+        userSettings.set(configElements.count, forKey: numberOfElementsKeyword)
+    }
+
+    func saveConfig(element: Element?, idx: Int) {
+        if let element = element {
+            //update our internal copy
+            if idx >= configElements.count {
+                configElements.insert(element, at: idx)
+            } else {
+                configElements[idx] = element
+            }
+            
+            //and update storage
+            storeAllElements()
         }
     }
     
-//    func deleteConfig(element: Element){
-//        //find the one we are looking for
-//        for idx in 0..<configElements.count {
-//            if configElements[idx].id == element.id { //found the corresponding one
-//                configElements.remove(at: idx)
-//                break
-//            }
-//        }
-//        
-//        //rewrite ids
-//        for index in 0..<configElements.count {
-//            configElements[index].id = index
-//        }
-//
-//        //and again we need to keep our number of elements up to data
-//        userSettings.set(configElements.count, forKey: numberOfElementsKeyword)
-//    }
+    func deleteConfig(element: Element, idx: Int){
+        //find the one we are looking for
+        if idx < configElements.count {
+            configElements.remove(at: idx)
+            //and update storage
+            storeAllElements()
+        }
+    }
     
     func retriveUserSetting(idx: Int) -> Element? {
         let keyString = String(idx)
 
         let savedArray = userSettings.object(forKey: keyString) as? [String]
         if let savedArray = savedArray {
-            if savedArray.count == 3 {
-                let id :Int? = Int(savedArray[0])
-                let name = savedArray[1]
-                let macAddr = savedArray[2]
-                if let id = id {
-                    return Element(id: id, name: name, macAddr: macAddr)
-                } else {
-                    return nil
-
-                }
+            if savedArray.count == 2 {
+                let name = savedArray[0]
+                let macAddr = savedArray[1]
+                return Element(name: name, macAddr: macAddr)
             }
         }
         return nil

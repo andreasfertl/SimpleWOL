@@ -27,7 +27,7 @@ class TableViewController: UITableViewController {
         
         if let configuration = configuration?.getConfiguration() {
             for element in configuration {
-               addElement(id: element.id, name: element.name, macAddr: element.macAddr)
+               addElement(name: element.name, macAddr: element.macAddr)
             }
         }
         
@@ -59,13 +59,13 @@ class TableViewController: UITableViewController {
     }
     
     @IBAction func NewButton(_ sender: Any) {
-        switchViews?.switchTo(viewController: .EditView, element: Element(id: genNextId(), name: "name", macAddr: "00:11:22:33:44:55"), newElement: true)
+        switchViews?.switchTo(viewController: .EditView, element: Element(name: "name", macAddr: "00:11:22:33:44:55"), idx: genNextIdx(), newElement: true)
     }
 
     
     @objc internal func switchChanged(_ sender : UISwitch!) {
         //id transported in sender
-        if let element = findElementById(sender.tag) {
+        if let element = findElementByIdx(sender.tag) {
             awake?.awake(macAddr: element.macAddr, finishedHandler: { (finished: Bool) -> Void in
                 element.uiSwitch!.setOn(false, animated: true)
             })
@@ -95,30 +95,26 @@ class TableViewController: UITableViewController {
         if indexPath.row < cellElements.count {
             let elementToEdit = cellElements[indexPath.row]
             if elementToEdit.buttonType == .editButton {
-                switchViews?.switchTo(viewController: .EditView, element: elementToEdit, newElement: false)
+                switchViews?.switchTo(viewController: .EditView, element: elementToEdit, idx: indexPath.row, newElement: false)
             }
         }
     }
     
-//    //return only edit able if in edit mode
-//    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        return buttonMode == .editButton
-//    }
-//
-//    //delete swipe action
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            if indexPath.row < cellElements.count {
-//                configuration?.deleteConfig(element: cellElements[indexPath.row])
-//                cellElements.remove(at: indexPath.row)
-//                //rewrite ids
-//                for index in 0..<cellElements.count {
-//                    cellElements[index].id = index
-//                }
-//                table.reloadData()
-//            }
-//        }
-//    }
+    //return only edit able if in edit mode
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return buttonMode == .editButton
+    }
+
+    //delete swipe action
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if indexPath.row < cellElements.count {
+                configuration?.deleteConfig(element: cellElements[indexPath.row], idx: indexPath.row)
+                cellElements.remove(at: indexPath.row)
+                table.reloadData()
+            }
+        }
+    }
 }
 
 
@@ -130,81 +126,67 @@ extension TableViewController {
         self.configuration = configuration
     }
 
-    func editOrNewElement(newElement: Element) {
+    func editOrNewElement(newElement: Element, idx: Int) {
         //handle new element or edit
-        if findElementById(newElement.id) != nil {
+        if findElementByIdx(idx) != nil {
             //there is an already exisiting one -> just update
-            let updated = UpdateElementById(newElement.id, name: newElement.name, macAddr: newElement.macAddr)
+            let updated = UpdateElementByIdx(idx, name: newElement.name, macAddr: newElement.macAddr)
             if updated {
-                let retVal = findElementAndIdxById(newElement.id)
-                configuration?.saveConfig(element: retVal.element)
+                let retVal = findElementByIdx(idx)
+                configuration?.saveConfig(element: retVal, idx: idx)
             }
         } else {
             //doesn´t exist - add the new one
-            addElement(id: newElement.id, name: newElement.name, macAddr: newElement.macAddr, buttonType: buttonMode)
+            addElement(name: newElement.name, macAddr: newElement.macAddr, buttonType: buttonMode)
             //and save
-            let retVal = findElementAndIdxById(newElement.id)
-            configuration?.saveConfig(element: retVal.element)
+            let retVal = findElementByIdx(idx)
+            configuration?.saveConfig(element: retVal, idx: idx)
         }
         
         table.reloadData()
     }
 
-    internal func addElement(id: Int, name: String, macAddr: String)
+    internal func addElement(name: String, macAddr: String)
     {
-        cellElements.append(Element(id: id, name: name, macAddr: macAddr, buttonType: ButtonType.switchButton, uiSwitch: generateSwitch(id: id)))
+        cellElements.append(Element(name: name, macAddr: macAddr, buttonType: ButtonType.switchButton, uiSwitch: generateSwitch(idx: genNextIdx())))
     }
 
-    internal func addElement(id: Int, name: String, macAddr: String, buttonType: ButtonType)
+    internal func addElement(name: String, macAddr: String, buttonType: ButtonType)
     {
-        cellElements.append(Element(id: id, name: name, macAddr: macAddr, buttonType: buttonType, uiSwitch: generateSwitch(id: id)))
+        cellElements.append(Element(name: name, macAddr: macAddr, buttonType: buttonType, uiSwitch: generateSwitch(idx: genNextIdx())))
     }
 
-    internal func findElementById(_ id: Int) -> Element? {
-        for index in 0..<cellElements.count {
-            if cellElements[index].id == id {
-                return cellElements[index]
-            }
+    internal func findElementByIdx(_ idx: Int) -> Element? {
+        if idx < cellElements.count {
+            return cellElements[idx]
         }
         return nil
     }
-
-    internal func findElementAndIdxById(_ id: Int) -> (element: Element?, idx: Int) {
-        for index in 0..<cellElements.count {
-            if cellElements[index].id == id {
-                return (cellElements[index], index)
-            }
-        }
-        return (nil, 0)
-    }
-
     
-    internal func UpdateElementById(_ id: Int, name: String, macAddr: String) -> Bool {
-        for index in 0..<cellElements.count {
-            if cellElements[index].id == id {
+    internal func UpdateElementByIdx(_ idx: Int, name: String, macAddr: String) -> Bool {
+        if idx < cellElements.count {
                 var changed = false
-                if cellElements[index].name != name {
-                    cellElements[index].name = name
+                if cellElements[idx].name != name {
+                    cellElements[idx].name = name
                     changed = true
                 }
-                if cellElements[index].macAddr != macAddr {
-                    cellElements[index].macAddr = macAddr
+                if cellElements[idx].macAddr != macAddr {
+                    cellElements[idx].macAddr = macAddr
                     changed = true
                 }
                 return changed
-            }
         }
         return false
     }
     
-    internal func genNextId() -> Int {
+    internal func genNextIdx() -> Int {
         return cellElements.count
     }
 
-    internal func generateSwitch(id: Int) -> UISwitch {
+    internal func generateSwitch(idx: Int) -> UISwitch {
         let switchView = UISwitch(frame: .zero)
         switchView.setOn(false, animated: true)
-        switchView.tag = id
+        switchView.tag = idx
         switchView.addTarget(self, action: #selector(self.switchChanged(_:)), for: .valueChanged)
         switchView.onTintColor = #colorLiteral(red: 0.6642242074, green: 0.6642400622, blue: 0.6642315388, alpha: 1)
         

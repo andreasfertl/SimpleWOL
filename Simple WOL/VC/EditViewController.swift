@@ -11,6 +11,7 @@ import UIKit
 class EditViewController: UIViewController, UITextFieldDelegate {
 
     var elementToEdit: Element?
+    var idx : Int = 0
     var switchViews: ViewControllerProtocol?
     var newElement: Bool = false
 
@@ -37,7 +38,7 @@ class EditViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func cancelButon(_ sender: Any) {
-        switchViews?.switchTo(viewController: .TableView, element: nil, newElement: false)
+        switchViews?.switchTo(viewController: .TableView, element: nil, idx: 0, newElement: false)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -59,8 +60,8 @@ class EditViewController: UIViewController, UITextFieldDelegate {
             if let name = uiNameTextBox.text, let macAddr = uiMACaddrTextBox.text  {
                 let macAddr = macAddr.uppercased()
                 if validateMACAddrInput(macAddr: macAddr){
-                    let elmentToSave = Element(id: element.id, name: name, macAddr: macAddr)
-                    switchViews?.switchTo(viewController: .TableView, element: elmentToSave, newElement: false)
+                    let elmentToSave = Element(name: name, macAddr: macAddr)
+                    switchViews?.switchTo(viewController: .TableView, element: elmentToSave, idx: idx, newElement: false)
                     return
                 } else { // not ok
                     uiFormatLabel.text = "Wrong format, use: 00:11:22:33:44:AA"
@@ -69,7 +70,7 @@ class EditViewController: UIViewController, UITextFieldDelegate {
                 }
             }
         }
-        switchViews?.switchTo(viewController: .TableView, element: nil, newElement: false)
+        switchViews?.switchTo(viewController: .TableView, element: nil, idx: 0, newElement: false)
     }
 
 
@@ -82,10 +83,11 @@ extension EditViewController {
         self.switchViews = switchViews
     }
 
-    func setElementToEdit(element: Element?, newElement: Bool) {
+    func setElementToEdit(element: Element?, idx: Int, newElement: Bool) {
         if let element = element {
             self.newElement = newElement
-            elementToEdit = Element(id: element.id, name: element.name, macAddr: element.macAddr)
+            self.idx = idx
+            elementToEdit = Element(name: element.name, macAddr: element.macAddr)
         }
     }
     
