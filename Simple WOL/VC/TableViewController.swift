@@ -24,6 +24,7 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.rowHeight = 75.0
+        tableView.separatorStyle = .none
         table.allowsSelection = false
         
         navigationController?.navigationBar.tintColor = UIColor.black
@@ -220,7 +221,9 @@ extension TableViewController {
         switchView.setOn(false, animated: true)
         switchView.tag = idx
         switchView.addTarget(self, action: #selector(self.switchChanged(_:)), for: .valueChanged)
-        switchView.onTintColor = #colorLiteral(red: 0.6642242074, green: 0.6642400622, blue: 0.6642315388, alpha: 1)
+        switchView.onTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 0.260541524)
+        switchView.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        switchView.thumbTintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         
         return switchView
     }
