@@ -14,6 +14,7 @@ class TableViewController: UITableViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     
     var cellElements: [Element] = []
+    var invokedRequest: [Bool] = []
     var configuration: ConfigurationProtocol?
     var awake: AwakeProtocol?
     var switchViews: ViewControllerProtocol?
@@ -70,25 +71,31 @@ class TableViewController: UITableViewController {
 
     
     @objc internal func switchChanged(_ sender : UISwitch!) {
-        if sender.isOn {
-            //id transported in sender
-            if let element = findElementByIdx(sender.tag) {
+        //id transported in sender
+        if let element = findElementByIdx(sender.tag) {
+            // don´t request a new one as long i am not finished!
+            if !invokedRequest[sender.tag] {
                 awake?.awake(macAddr: element.macAddr, progressHandler: { (count: Int) -> Void in
                     DispatchQueue.main.async {
+                        self.invokedRequest[sender.tag] = true
                         element.subtitle = "started sending WOL packages: \(count)"
                         self.table.reloadData()
                     }
                 }, finishedHandler: { (finished: Bool) -> Void in
                     DispatchQueue.main.async {
                         element.subtitle = "done"
-                        element.uiSwitch!.setOn(false, animated: true)
                         self.table.reloadData()
                         Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
                             element.subtitle = ""
+                            element.uiSwitch!.setOn(false, animated: true)
+                            self.invokedRequest[sender.tag] = false
                             self.table.reloadData()
                         }
                     }
                 })
+            } else {
+                //just set it back since we are busy
+                sender.setOn(true, animated: false)
             }
         }
     }
@@ -180,11 +187,13 @@ extension TableViewController {
     internal func addElement(name: String, macAddr: String)
     {
         cellElements.append(Element(name: name, macAddr: macAddr, buttonType: ButtonType.switchButton, uiSwitch: generateSwitch(idx: genNextIdx())))
+        invokedRequest.append(false)
     }
 
     internal func addElement(name: String, macAddr: String, buttonType: ButtonType)
     {
         cellElements.append(Element(name: name, macAddr: macAddr, buttonType: buttonType, uiSwitch: generateSwitch(idx: genNextIdx())))        
+        invokedRequest.append(false)
     }
 
     internal func findElementByIdx(_ idx: Int) -> Element? {
