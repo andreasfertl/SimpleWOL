@@ -11,6 +11,7 @@ import Foundation
 protocol ConfigurationProtocol {
     func getConfiguration() -> [Element]?
     func saveConfig(element: Element?)
+    //func deleteConfig(element: Element)
 }
 
 class Configuration : ConfigurationProtocol {
@@ -40,6 +41,24 @@ class Configuration : ConfigurationProtocol {
             userSettings.set(configElements.count, forKey: numberOfElementsKeyword)
         }
     }
+    
+//    func deleteConfig(element: Element){
+//        //find the one we are looking for
+//        for idx in 0..<configElements.count {
+//            if configElements[idx].id == element.id { //found the corresponding one
+//                configElements.remove(at: idx)
+//                break
+//            }
+//        }
+//        
+//        //rewrite ids
+//        for index in 0..<configElements.count {
+//            configElements[index].id = index
+//        }
+//
+//        //and again we need to keep our number of elements up to data
+//        userSettings.set(configElements.count, forKey: numberOfElementsKeyword)
+//    }
     
     func retriveUserSetting(idx: Int) -> Element? {
         let keyString = String(idx)

@@ -99,6 +99,26 @@ class TableViewController: UITableViewController {
             }
         }
     }
+    
+//    //return only edit able if in edit mode
+//    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+//        return buttonMode == .editButton
+//    }
+//
+//    //delete swipe action
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            if indexPath.row < cellElements.count {
+//                configuration?.deleteConfig(element: cellElements[indexPath.row])
+//                cellElements.remove(at: indexPath.row)
+//                //rewrite ids
+//                for index in 0..<cellElements.count {
+//                    cellElements[index].id = index
+//                }
+//                table.reloadData()
+//            }
+//        }
+//    }
 }
 
 
@@ -178,10 +198,9 @@ extension TableViewController {
     }
     
     internal func genNextId() -> Int {
-        return cellElements.count + 1
+        return cellElements.count
     }
 
-    
     internal func generateSwitch(id: Int) -> UISwitch {
         let switchView = UISwitch(frame: .zero)
         switchView.setOn(false, animated: true)
