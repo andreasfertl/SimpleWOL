@@ -14,7 +14,6 @@ class TableViewController: UITableViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     
     var cellElements: [Element] = []
-    var invokedRequest: [Bool] = []
     var configuration: ConfigurationProtocol?
     var awake: AwakeProtocol?
     var switchViews: ViewControllerProtocol?
@@ -74,10 +73,10 @@ class TableViewController: UITableViewController {
         //id transported in sender
         if let element = findElementByIdx(sender.tag) {
             // don´t request a new one as long i am not finished!
-            if !invokedRequest[sender.tag] {
+            if !element.invokedRequest {
                 awake?.awake(macAddr: element.macAddr, progressHandler: { (count: Int) -> Void in
                     DispatchQueue.main.async {
-                        self.invokedRequest[sender.tag] = true
+                        element.invokedRequest = true
                         element.subtitle = "started sending WOL packages: \(count)"
                         self.table.reloadData()
                     }
@@ -88,7 +87,7 @@ class TableViewController: UITableViewController {
                         Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
                             element.subtitle = ""
                             element.uiSwitch!.setOn(false, animated: true)
-                            self.invokedRequest[sender.tag] = false
+                            element.invokedRequest = false
                             self.table.reloadData()
                         }
                     }
@@ -112,6 +111,8 @@ class TableViewController: UITableViewController {
             cell.textLabel?.text = element.name
             cell.detailTextLabel?.text = element.subtitle
             if element.buttonType == ButtonType.switchButton {
+                //update the tag to correspond always the indexpath
+                element.uiSwitch?.tag = indexPath.row
                 cell.accessoryView = element.uiSwitch
             } else {
                 cell.accessoryView = nil
@@ -140,19 +141,9 @@ class TableViewController: UITableViewController {
             if indexPath.row < cellElements.count {
                 configuration?.deleteConfig(element: cellElements[indexPath.row], idx: indexPath.row)
                 cellElements.remove(at: indexPath.row)
-                invokedRequest.remove(at: indexPath.row)
                 table.reloadData()
             }
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "Delete") { (action, sourceView, completionHandler) in
-            completionHandler(true)
-        }
-        let swipeAction = UISwipeActionsConfiguration(actions: [delete])
-        swipeAction.performsFirstActionWithFullSwipe = false // This is the line which disables full swipe
-        return swipeAction
     }
 }
 
@@ -188,13 +179,11 @@ extension TableViewController {
     internal func addElement(name: String, macAddr: String)
     {
         cellElements.append(Element(name: name, macAddr: macAddr, buttonType: ButtonType.switchButton, uiSwitch: generateSwitch(idx: genNextIdx())))
-        invokedRequest.append(false)
     }
 
     internal func addElement(name: String, macAddr: String, buttonType: ButtonType)
     {
         cellElements.append(Element(name: name, macAddr: macAddr, buttonType: buttonType, uiSwitch: generateSwitch(idx: genNextIdx())))        
-        invokedRequest.append(false)
     }
 
     internal func findElementByIdx(_ idx: Int) -> Element? {

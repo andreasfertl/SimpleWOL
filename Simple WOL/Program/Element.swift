@@ -22,6 +22,7 @@ class Element {
     var macAddr: String
     var buttonType: ButtonType?
     var uiSwitch: UISwitch?
+    var invokedRequest = false
     
     init(name: String, macAddr: String, buttonType: ButtonType, uiSwitch: UISwitch) {
         self.name = name
