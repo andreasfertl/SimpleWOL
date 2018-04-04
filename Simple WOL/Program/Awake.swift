@@ -9,14 +9,26 @@ import Foundation
 
 class AwakeHandler : AwakeProtocol {
     
-    func awake(macAddr: String, finishedHandler: @escaping(Bool) -> Void) {
+    func awakeInternal(macAddr: String, count: Int, progressHandler: (Int) -> Void) {
         //e.g MAC = "94:C6:91:15:E6:D1"
         let computer = Awake.Device(MAC: macAddr, BroadcastAddr: "255.255.255.255", Port: 9)
         _ = Awake.target(device: computer)
+        progressHandler(count)
+    }
+    
+    
+    func awake(macAddr: String, progressHandler: @escaping(Int) -> Void, finishedHandler: @escaping(Bool) -> Void) {
         
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
+        DispatchQueue.global(qos: .background).async {
+            self.awakeInternal(macAddr: macAddr, count: 1, progressHandler: progressHandler)
+            sleep(1)
+            self.awakeInternal(macAddr: macAddr, count: 2, progressHandler: progressHandler)
+            sleep(1)
+            self.awakeInternal(macAddr: macAddr, count: 3, progressHandler: progressHandler)
+            sleep(1)
             finishedHandler(true)
         }
+
     }
 }
 

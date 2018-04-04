@@ -23,6 +23,10 @@ class TableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        table.allowsSelection = false
+        navigationController?.navigationBar.tintColor = UIColor.black
+        navigationController?.navigationBar.barStyle = UIBarStyle.default
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditButton(_:)))
         
         if let configuration = configuration?.getConfiguration() {
@@ -31,10 +35,10 @@ class TableViewController: UITableViewController {
             }
         }
         
-        //addElement(id: 1, name: "DeveloperPc", macAddr: "94:C6:91:15:E6:D1")
-        //addElement(id: 2, name: "MacbookAir",  macAddr: "84:38:35:55:51:66")
-        //addElement(id: 3, name: "Macbook",     macAddr: "DC:A9:04:73:1E:4F")
-        //addElement(id: 4, name: "AppleTV",     macAddr: "D0:03:4B:EA:0A:FA")
+//        addElement(name: "DeveloperPc", macAddr: "94:C6:91:15:E6:D1")
+//        addElement(name: "MacbookAir",  macAddr: "84:38:35:55:51:66")
+//        addElement(name: "Macbook",     macAddr: "DC:A9:04:73:1E:4F")
+//        addElement(name: "AppleTV",     macAddr: "D0:03:4B:EA:0A:FA")
     }
 
     @IBAction func EditButton(_ sender: Any) {
@@ -44,11 +48,13 @@ class TableViewController: UITableViewController {
             buttonMode = .editButton
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(EditButton(_:)))
             navigationItem.leftBarButtonItem  = UIBarButtonItem(title: "New", style: .plain, target: self, action: #selector(NewButton(_:)))
+            table.allowsSelection = true
         } else {
             newButtonMode = .switchButton
             buttonMode = newButtonMode
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditButton(_:)))
             navigationItem.leftBarButtonItem = nil
+            table.allowsSelection = false
         }
         
         for index in 0..<cellElements.count {
@@ -64,11 +70,26 @@ class TableViewController: UITableViewController {
 
     
     @objc internal func switchChanged(_ sender : UISwitch!) {
-        //id transported in sender
-        if let element = findElementByIdx(sender.tag) {
-            awake?.awake(macAddr: element.macAddr, finishedHandler: { (finished: Bool) -> Void in
-                element.uiSwitch!.setOn(false, animated: true)
-            })
+        if sender.isOn {
+            //id transported in sender
+            if let element = findElementByIdx(sender.tag) {
+                awake?.awake(macAddr: element.macAddr, progressHandler: { (count: Int) -> Void in
+                    DispatchQueue.main.async {
+                        element.subtitle = "started sending WOL packages: \(count)"
+                        self.table.reloadData()
+                    }
+                }, finishedHandler: { (finished: Bool) -> Void in
+                    DispatchQueue.main.async {
+                        element.subtitle = "done"
+                        element.uiSwitch!.setOn(false, animated: true)
+                        self.table.reloadData()
+                        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
+                            element.subtitle = ""
+                            self.table.reloadData()
+                        }
+                    }
+                })
+            }
         }
     }
     
@@ -82,6 +103,7 @@ class TableViewController: UITableViewController {
         if indexPath.row < cellElements.count {
             let element = cellElements[indexPath.row]
             cell.textLabel?.text = element.name
+            cell.detailTextLabel?.text = element.subtitle
             if element.buttonType == ButtonType.switchButton {
                 cell.accessoryView = element.uiSwitch
             } else {
@@ -114,6 +136,15 @@ class TableViewController: UITableViewController {
                 table.reloadData()
             }
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { (action, sourceView, completionHandler) in
+            completionHandler(true)
+        }
+        let swipeAction = UISwipeActionsConfiguration(actions: [delete])
+        swipeAction.performsFirstActionWithFullSwipe = false // This is the line which disables full swipe
+        return swipeAction
     }
 }
 
@@ -153,7 +184,7 @@ extension TableViewController {
 
     internal func addElement(name: String, macAddr: String, buttonType: ButtonType)
     {
-        cellElements.append(Element(name: name, macAddr: macAddr, buttonType: buttonType, uiSwitch: generateSwitch(idx: genNextIdx())))
+        cellElements.append(Element(name: name, macAddr: macAddr, buttonType: buttonType, uiSwitch: generateSwitch(idx: genNextIdx())))        
     }
 
     internal func findElementByIdx(_ idx: Int) -> Element? {

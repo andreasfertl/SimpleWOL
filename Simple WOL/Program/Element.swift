@@ -16,8 +16,9 @@ enum ButtonType: Int
     case deleteButton
 }
 
-struct Element {
+class Element {
     var name: String
+    var subtitle: String = ""
     var macAddr: String
     var buttonType: ButtonType?
     var uiSwitch: UISwitch?

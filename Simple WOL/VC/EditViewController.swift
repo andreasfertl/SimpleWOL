@@ -56,21 +56,18 @@ class EditViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func saveButton(_ sender: Any) {
-        if let element = elementToEdit {
-            if let name = uiNameTextBox.text, let macAddr = uiMACaddrTextBox.text  {
-                let macAddr = macAddr.uppercased()
-                if validateMACAddrInput(macAddr: macAddr){
-                    let elmentToSave = Element(name: name, macAddr: macAddr)
-                    switchViews?.switchTo(viewController: .TableView, element: elmentToSave, idx: idx, newElement: false)
-                    return
-                } else { // not ok
-                    uiFormatLabel.text = "Wrong format, use: 00:11:22:33:44:AA"
-                    uiFormatLabel.isHidden = false
-                    return
-                }
+        if let name = uiNameTextBox.text, let macAddr = uiMACaddrTextBox.text  {
+            let macAddr = macAddr.uppercased()
+            if validateMACAddrInput(macAddr: macAddr){
+                let elmentToSave = Element(name: name, macAddr: macAddr)
+                switchViews?.switchTo(viewController: .TableView, element: elmentToSave, idx: idx, newElement: false)
+                return
+            } else { // not ok
+                uiFormatLabel.text = "Wrong format, use: 00:11:22:33:44:AA"
+                uiFormatLabel.isHidden = false
+                return
             }
         }
-        switchViews?.switchTo(viewController: .TableView, element: nil, idx: 0, newElement: false)
     }
 
 

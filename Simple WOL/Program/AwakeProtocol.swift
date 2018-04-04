@@ -9,6 +9,6 @@
 import Foundation
 
 protocol AwakeProtocol: class {
-    func awake(macAddr: String, finishedHandler: @escaping(Bool) -> Void)
+    func awake(macAddr: String, progressHandler: @escaping(Int) -> Void, finishedHandler: @escaping(Bool) -> Void)
 }
 
