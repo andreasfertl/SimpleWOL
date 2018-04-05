@@ -36,7 +36,7 @@ class EditViewController: UIViewController, UITextFieldDelegate {
             uiTitle.text = "Edit host"
         }
     }
-
+    
     @IBAction func cancelButon(_ sender: Any) {
         switchViews?.switchTo(viewController: .TableView, element: nil, idx: 0, newElement: false)
     }

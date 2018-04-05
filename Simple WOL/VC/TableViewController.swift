@@ -10,7 +10,6 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
-    @IBOutlet weak var table: UITableView!
     @IBOutlet weak var editButton: UIBarButtonItem!
     
     var cellElements: [Element] = []
@@ -22,10 +21,10 @@ class TableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         tableView.rowHeight = 75.0
         tableView.separatorStyle = .none
-        table.allowsSelection = false
+        tableView.allowsSelection = false
         
         navigationController?.navigationBar.tintColor = UIColor.black
         navigationController?.navigationBar.barStyle = UIBarStyle.default
@@ -44,6 +43,7 @@ class TableViewController: UITableViewController {
 //        addElement(name: "AppleTV",     macAddr: "D0:03:4B:EA:0A:FA")
     }
 
+
     @IBAction func EditButton(_ sender: Any) {
         //change all icons
         var newButtonMode = ButtonType.editButton
@@ -51,20 +51,20 @@ class TableViewController: UITableViewController {
             buttonMode = .editButton
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(EditButton(_:)))
             navigationItem.leftBarButtonItem  = UIBarButtonItem(title: "New", style: .plain, target: self, action: #selector(NewButton(_:)))
-            table.allowsSelection = true
+            tableView.allowsSelection = true
         } else {
             newButtonMode = .switchButton
             buttonMode = newButtonMode
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditButton(_:)))
             navigationItem.leftBarButtonItem = nil
-            table.allowsSelection = false
+            tableView.allowsSelection = false
         }
         
         for index in 0..<cellElements.count {
             cellElements[index].buttonType = newButtonMode
         }
         
-        table.reloadData()
+        tableView.reloadData()
     }
     
     @IBAction func NewButton(_ sender: Any) {
@@ -79,25 +79,27 @@ class TableViewController: UITableViewController {
             if !element.invokedRequest {
                 awake?.awake(macAddr: element.macAddr, progressHandler: { (count: Int) -> Void in
                     DispatchQueue.main.async {
+                        element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
                         element.invokedRequest = true
                         element.subtitle = "started sending WOL packages: \(count)"
-                        self.table.reloadData()
+                        self.tableView.reloadData()
                     }
                 }, finishedHandler: { (finished: Bool) -> Void in
                     DispatchQueue.main.async {
                         element.subtitle = "done"
-                        self.table.reloadData()
+                        self.tableView.reloadData()
                         Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
                             element.subtitle = ""
-                            element.uiSwitch!.setOn(false, animated: true)
+                            element.uiSwitch!.setOn(true, animated: true)
+                            element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 0.6383775685)
                             element.invokedRequest = false
-                            self.table.reloadData()
+                            self.tableView.reloadData()
                         }
                     }
                 })
             } else {
                 //just set it back since we are busy
-                sender.setOn(true, animated: false)
+                sender.setOn(false, animated: false)
             }
         }
     }
@@ -144,7 +146,7 @@ class TableViewController: UITableViewController {
             if indexPath.row < cellElements.count {
                 configuration?.deleteConfig(element: cellElements[indexPath.row], idx: indexPath.row)
                 cellElements.remove(at: indexPath.row)
-                table.reloadData()
+                tableView.reloadData()
             }
         }
     }
@@ -176,7 +178,7 @@ extension TableViewController {
             configuration?.saveConfig(element: retVal, idx: idx)
         }
         
-        table.reloadData()
+        tableView.reloadData()
     }
 
     internal func addElement(name: String, macAddr: String)
@@ -218,12 +220,12 @@ extension TableViewController {
 
     internal func generateSwitch(idx: Int) -> UISwitch {
         let switchView = UISwitch(frame: .zero)
-        switchView.setOn(false, animated: true)
+        switchView.setOn(true, animated: true)
         switchView.tag = idx
         switchView.addTarget(self, action: #selector(self.switchChanged(_:)), for: .valueChanged)
-        switchView.onTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 0.260541524)
-        switchView.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        switchView.thumbTintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        switchView.onTintColor = #colorLiteral(red: 0.5339604728, green: 0.8430225243, blue: 1, alpha: 1)
+        switchView.tintColor = #colorLiteral(red: 0.5339604728, green: 0.8430225243, blue: 1, alpha: 1)
+        switchView.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 0.6383775685)
         
         return switchView
     }
