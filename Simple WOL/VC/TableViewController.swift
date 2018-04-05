@@ -95,7 +95,7 @@ class TableViewController: UITableViewController {
                         Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
                             element.subtitle = ""
                             element.uiSwitch!.setOn(true, animated: true)
-                            element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 0.6383775685)
+                            element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 0.5)
                             element.invokedRequest = false
                             self.tableView.reloadData()
                         }

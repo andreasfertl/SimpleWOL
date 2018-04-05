@@ -9,25 +9,19 @@ import Foundation
 
 class AwakeHandler : AwakeProtocol {
     
-    func awakeInternal(macAddr: String, count: Int, progressHandler: (Int) -> Void, finishedHandler: (Bool) -> Void) {
-        //e.g MAC = "94:C6:91:15:E6:D1"
-        let sentOk = AwakeMe().Awake(macAddr: macAddr)
-        if !sentOk {
-            finishedHandler(false)
-        }
-        progressHandler(count)
-    }
-    
-    
     func awake(macAddr: String, progressHandler: @escaping(Int) -> Void, finishedHandler: @escaping(Bool) -> Void) {
         
         DispatchQueue.global(qos: .background).async {
-            self.awakeInternal(macAddr: macAddr, count: 1, progressHandler: progressHandler, finishedHandler: finishedHandler)
-            sleep(1)
-            self.awakeInternal(macAddr: macAddr, count: 2, progressHandler: progressHandler, finishedHandler: finishedHandler)
-            sleep(1)
-            self.awakeInternal(macAddr: macAddr, count: 3, progressHandler: progressHandler, finishedHandler: finishedHandler)
-            sleep(1)
+            //try to wake 3 times
+            for run in 1...3 {
+                if !AwakeMe().Awake(macAddr: macAddr) {
+                    finishedHandler(false)
+                    return
+                }
+                progressHandler(run)
+                sleep(1)
+            }
+            
             finishedHandler(true)
         }
 
