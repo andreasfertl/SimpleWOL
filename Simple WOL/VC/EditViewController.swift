@@ -93,14 +93,69 @@ extension EditViewController {
         }
     }
     
+    func validateChar(_ char: Character) -> Bool {
+        switch char {
+        case "0":
+            return true
+        case "1":
+            return true
+        case "2":
+            return true
+        case "3":
+            return true
+        case "4":
+            return true
+        case "5":
+            return true
+        case "6":
+            return true
+        case "7":
+            return true
+        case "8":
+            return true
+        case "9":
+            return true
+        case "A":
+            return true
+        case "B":
+            return true
+        case "C":
+            return true
+        case "D":
+            return true
+        case "E":
+            return true
+        case "F":
+            return true
+
+        default:
+            return false
+        }
+    }
+    
     func validateMACAddrInput(macAddr: String) -> Bool {        
+        
+        //is it divided in 6 sub"strings" 00:11:22:33:44:AA
         let components = macAddr.components(separatedBy: ":")
         let numbers = components.map { return strtoul($0, nil, 16) }
         if numbers.count != 6 {
             return false
-        } else {
-            return true
         }
+        
+        //in every substring should be only 2 characters
+        for numberString in components {
+            if numberString.count != 2 {
+                return false
+            }
+            //only runs twice
+            for char in numberString {
+                if !validateChar(char) {
+                    return false
+                }
+            }
+        }
+        //ok all testst passed
+        return true
     }
 
 }

@@ -9,10 +9,12 @@ import Foundation
 
 class AwakeHandler : AwakeProtocol {
     
-    func awakeInternal(macAddr: String, count: Int, progressHandler: (Int) -> Void) {
+    func awakeInternal(macAddr: String, count: Int, progressHandler: (Int) -> Void, finishedHandler: (Bool) -> Void) {
         //e.g MAC = "94:C6:91:15:E6:D1"
-        let computer = Awake.Device(MAC: macAddr, BroadcastAddr: "255.255.255.255", Port: 9)
-        _ = Awake.target(device: computer)
+        let sentOk = AwakeMe().Awake(macAddr: macAddr)
+        if !sentOk {
+            finishedHandler(false)
+        }
         progressHandler(count)
     }
     
@@ -20,11 +22,11 @@ class AwakeHandler : AwakeProtocol {
     func awake(macAddr: String, progressHandler: @escaping(Int) -> Void, finishedHandler: @escaping(Bool) -> Void) {
         
         DispatchQueue.global(qos: .background).async {
-            self.awakeInternal(macAddr: macAddr, count: 1, progressHandler: progressHandler)
+            self.awakeInternal(macAddr: macAddr, count: 1, progressHandler: progressHandler, finishedHandler: finishedHandler)
             sleep(1)
-            self.awakeInternal(macAddr: macAddr, count: 2, progressHandler: progressHandler)
+            self.awakeInternal(macAddr: macAddr, count: 2, progressHandler: progressHandler, finishedHandler: finishedHandler)
             sleep(1)
-            self.awakeInternal(macAddr: macAddr, count: 3, progressHandler: progressHandler)
+            self.awakeInternal(macAddr: macAddr, count: 3, progressHandler: progressHandler, finishedHandler: finishedHandler)
             sleep(1)
             finishedHandler(true)
         }
@@ -32,84 +34,91 @@ class AwakeHandler : AwakeProtocol {
     }
 }
 
+class AwakeMe {
 
-class Awake {
-    struct Device {
-        var MAC: String
-        var BroadcastAddr: String
-        var Port: UInt16 = 9
-    }
-    
-    enum WakeError: Error {
-        case SocketSetupFailed(reason: String)
-        case SetSocketOptionsFailed(reason: String)
-        case SendMagicPacketFailed(reason: String)
-    }
-    
-    static func target(device: Device) -> Error? {
-        var sock: Int32
-        var target = sockaddr_in()
-        
-        target.sin_family = sa_family_t(AF_INET)
-        target.sin_addr.s_addr = inet_addr(device.BroadcastAddr)
-        
-        let isLittleEndian = Int(OSHostByteOrder()) == OSLittleEndian
-        target.sin_port = isLittleEndian ? _OSSwapInt16(device.Port) : device.Port
-        
-        // Setup the packet socket
-        sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)
-        if sock < 0 {
-            let err = String(utf8String: strerror(errno)) ?? ""
-            return WakeError.SocketSetupFailed(reason: err)
-        }
-        
-        let packet = createMagicPacket(mac: device.MAC)
-        let sockaddrLen = socklen_t(MemoryLayout<sockaddr>.stride)
-        let intLen = socklen_t(MemoryLayout<Int>.stride)
-        
-        // Set socket options
-        var broadcast = 1
-        if setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &broadcast, intLen) == -1 {
-            close(sock)
-            let err = String(utf8String: strerror(errno)) ?? ""
-            return WakeError.SetSocketOptionsFailed(reason: err)
-        }
-        
-        // Send magic packet
-        var targetCast = unsafeBitCast(target, to: sockaddr.self)
-        if sendto(sock, packet, packet.count, 0, &targetCast, sockaddrLen) != packet.count {
-            close(sock)
-            let err = String(utf8String: strerror(errno)) ?? ""
-            return WakeError.SendMagicPacketFailed(reason: err)
-        }
-        
-        close(sock)
-        
-        return nil
-    }
-    
-    internal static func createMagicPacket(mac: String) -> [CUnsignedChar] {
-        var buffer = [CUnsignedChar]()
-        
-        // Create header
-        for _ in 1...6 {
-            buffer.append(0xFF)
-        }
-        
-        let components = mac.components(separatedBy: ":")
+    func getMacFromString(macAddr: String) -> [CUnsignedChar] {
+        let components = macAddr.components(separatedBy: ":")
         let numbers = components.map {
             return strtoul($0, nil, 16)
         }
         
+        var mac : [CUnsignedChar] = []
+        for number in numbers {
+            mac.append(CUnsignedChar(number))
+        }
+        return mac
+    }
+    
+    func createMagicPacket(macAddr: String) -> [CUnsignedChar] {
+        var buffer = [CUnsignedChar]()
+        
+        // Create header with 6 times 0xFF
+        for _ in 1...6 {
+            buffer.append(0xFF)
+        }
+        
+        let mac = getMacFromString(macAddr: macAddr)
         // Repeat MAC address 16 times
         for _ in 1...16 {
-            for number in numbers {
-                buffer.append(CUnsignedChar(number))
+            for macNibble in mac {
+                buffer.append(macNibble)
             }
         }
         
         return buffer
     }
-}
+    
+    func openUdpSocket() -> (Int32, Bool) {
+        let sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)
+        if sock < 0 {
+            return (-1, true) //error, couldn´t create the socket
+        } else {
+            return (sock, true)
+        }
+    }
 
+    func setBroadcastEnableOnSocket(_ socket: Int32) -> Bool {
+        var broadcast = 1
+        let intLen = socklen_t(MemoryLayout<Int>.stride)
+        if setsockopt(socket, SOL_SOCKET, SO_BROADCAST, &broadcast, intLen) == -1 {
+            close(socket)
+            return false //couldn´t set broadcast
+        }
+        return true
+    }
+    
+    func sendMagicPacket(_ socket: Int32, _ macAddr: String) -> Bool {
+        var target = sockaddr_in()
+        target.sin_family = sa_family_t(AF_INET)
+        target.sin_addr.s_addr = inet_addr("255.255.255.255") //fixed for the moment
+        target.sin_port = _OSSwapInt16(9) //fixed for the moment
+
+        var targetCast = unsafeBitCast(target, to: sockaddr.self)
+        let sockaddrLen = socklen_t(MemoryLayout<sockaddr>.stride)
+        let packet = createMagicPacket(macAddr: macAddr)
+        
+        if sendto(socket, packet, packet.count, 0, &targetCast, sockaddrLen) != packet.count {
+            return false // couldn´t send
+        }
+        else {
+            return true
+        }
+    }
+
+    func Awake(macAddr: String) -> Bool {
+        var retVal = false
+        
+        let (socket, socketOpen) = openUdpSocket()
+        if socketOpen {
+            if setBroadcastEnableOnSocket(socket) {
+                if sendMagicPacket(socket, macAddr) {
+                    retVal = true //everything went fine
+                }
+            }
+        }
+        close(socket)
+        return retVal
+    }
+    
+}
 

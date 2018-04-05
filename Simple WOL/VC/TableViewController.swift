@@ -86,7 +86,11 @@ class TableViewController: UITableViewController {
                     }
                 }, finishedHandler: { (finished: Bool) -> Void in
                     DispatchQueue.main.async {
-                        element.subtitle = "done"
+                        if finished {
+                            element.subtitle = "done"
+                        } else {
+                            element.subtitle = "error couldn´t send"
+                        }
                         self.tableView.reloadData()
                         Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
                             element.subtitle = ""
