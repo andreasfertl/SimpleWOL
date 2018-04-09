@@ -26,12 +26,11 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         session = WCSession.default
         session?.delegate = self
         session?.activate()
+        
+        retrieveConfig()
     }
     
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
-
+    func retrieveConfig() {
         session?.sendMessage(["get" : "machine"],
                              replyHandler: { (response) in
                                 DispatchQueue.main.async {
@@ -52,7 +51,16 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                              errorHandler: { (error) in
                                 print("Error sending message: %@", error)
                              }
-        )
+                            )
+    }
+    
+    override func willActivate() {
+        // This method is called when watch view controller is about to be visible to user
+        super.willActivate()
+    }
+    
+    override func didAppear() {
+        retrieveConfig()
     }
     
     override func didDeactivate() {
@@ -60,8 +68,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         super.didDeactivate()
     }
     
-    @IBAction func awakeButton() {
-        session?.sendMessage(["awake" : self.macAddr],
+    func sendAwake(macAddr: String) {
+        session?.sendMessage(["awake" : macAddr],
                              replyHandler: { (response) in
                                 DispatchQueue.main.async {
                                     self.uiLabelPCName.setText("sent awake")
@@ -74,8 +82,12 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                                 DispatchQueue.main.async {
                                     self.uiLabelPCName.setText("error")
                                 }
-        }
-        )
+                            }
+                            )
+    }
+    
+    @IBAction func awakeButton() {
+        sendAwake(macAddr: self.macAddr)
     }
     
     // MARK: - WCSessionDelegate
