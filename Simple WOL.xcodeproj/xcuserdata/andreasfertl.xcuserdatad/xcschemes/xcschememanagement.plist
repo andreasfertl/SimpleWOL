@@ -4,14 +4,29 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Simple WOL.xcscheme</key>
+		<key>Simple WOL WK (Notification).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>Simple WOL WK.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>Simple WOL.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>26049CF02077847200D7260E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>2650722B206F8D3C007A3F6F</key>
 		<dict>
 			<key>primary</key>

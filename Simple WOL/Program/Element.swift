@@ -23,6 +23,7 @@ class Element {
     var buttonType: ButtonType?
     var uiSwitch: UISwitch?
     var invokedRequest = false
+    var showOnAppleWatch = false
     
     init(name: String, macAddr: String, buttonType: ButtonType, uiSwitch: UISwitch) {
         self.name = name

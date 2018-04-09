@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ViewControllerProtocol {
     var tableViewController: TableViewController?
     var editViewController: EditViewController?
     var configuration = Configuration()
+    var connectivityHandler = ConnectivityHandler()
     
     //helper function to set tableViewController reference
     func getTableViewControler() -> TableViewController? {
@@ -39,7 +40,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ViewControllerProtocol {
         //connect protocols
         tableViewController?.setProtocols(configuration: configuration, buttonDelegate: awakeHandler, switchViews: self)
         editViewController?.setProtocols(switchViews: self)
-
+        
+        if connectivityHandler.isAvailable() {
+            if tableViewController != nil {
+                connectivityHandler.setWatchProtocol(watchProtocol: tableViewController!)
+            }
+        }
+        
         return true
     }
 

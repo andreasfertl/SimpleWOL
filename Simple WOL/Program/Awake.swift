@@ -1,8 +1,9 @@
 //
-//  AWake.swift
+//  Awake.swift
+//  Simple WOL
 //
-//  Created by Jesper Lindberg on 2016-10-03.
-//  Copyright © 2016 Jesper Lindberg. All rights reserved.
+//  Created by Andreas Fertl on 30.03.18.
+//  Copyright © 2018 Andreas Fertl. All rights reserved.
 //
 
 import Foundation

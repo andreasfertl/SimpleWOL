@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableViewController: UITableViewController {
+class TableViewController: UITableViewController, watchProtocol {
     
     @IBOutlet weak var editButton: UIBarButtonItem!
     
@@ -35,7 +35,15 @@ class TableViewController: UITableViewController {
             for element in configuration {
                addElement(name: element.name, macAddr: element.macAddr)
             }
+            
+            if configuration.count > 1 { //the first one to be on apple watch
+                configuration[0].showOnAppleWatch = true
+                if configuration[0].showOnAppleWatch {
+                }
+            }
+        
         }
+        
         
 //        addElement(name: "DeveloperPc", macAddr: "94:C6:91:15:E6:D1")
 //        addElement(name: "MacbookAir",  macAddr: "84:38:35:55:51:66")
@@ -76,35 +84,7 @@ class TableViewController: UITableViewController {
         //id transported in sender
         if let element = findElementByIdx(sender.tag) {
             // don´t request a new one as long i am not finished!
-            if !element.invokedRequest {
-                awake?.awake(macAddr: element.macAddr, progressHandler: { (count: Int) -> Void in
-                    DispatchQueue.main.async {
-                        element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-                        element.invokedRequest = true
-                        element.subtitle = "started sending WOL packages: \(count)"
-                        self.tableView.reloadData()
-                    }
-                }, finishedHandler: { (finished: Bool) -> Void in
-                    DispatchQueue.main.async {
-                        if finished {
-                            element.subtitle = "done"
-                        } else {
-                            element.subtitle = "error couldn´t send"
-                        }
-                        self.tableView.reloadData()
-                        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
-                            element.subtitle = ""
-                            element.uiSwitch!.setOn(true, animated: true)
-                            element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 0.5)
-                            element.invokedRequest = false
-                            self.tableView.reloadData()
-                        }
-                    }
-                })
-            } else {
-                //just set it back since we are busy
-                sender.setOn(false, animated: false)
-            }
+            awakeThis(element: element)
         }
     }
     
@@ -164,7 +144,55 @@ extension TableViewController {
         self.switchViews = switchViews
         self.configuration = configuration
     }
+    
+    func getConfiguredMachines() -> [machine]? {
+        var machines = [machine]()
+        
+        for element in cellElements {
+            machines.append(machine(macAddr: element.macAddr, name: element.name))
+        }
+        return machines
+    }
+    
+    func awakeThis(macAddr: String) {
+        if let awakeme = findElementByMacAddr(macAddr) {
+            awakeThis(element: awakeme)
+        }
+    }
+    
+    func awakeThis(element: Element) {
+        if !element.invokedRequest {
+            awake?.awake(macAddr: element.macAddr, progressHandler: { (count: Int) -> Void in
+                DispatchQueue.main.async {
+                    element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+                    element.invokedRequest = true
+                    element.subtitle = "started sending WOL packages: \(count)"
+                    self.tableView.reloadData()
+                }
+            }, finishedHandler: { (finished: Bool) -> Void in
+                DispatchQueue.main.async {
+                    if finished {
+                        element.subtitle = "done"
+                    } else {
+                        element.subtitle = "error couldn´t send"
+                    }
+                    self.tableView.reloadData()
+                    Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
+                        element.subtitle = ""
+                        element.uiSwitch!.setOn(true, animated: true)
+                        element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 0.5)
+                        element.invokedRequest = false
+                        self.tableView.reloadData()
+                    }
+                }
+            })
+        } else {
+            //just set it back since we are busy
+            element.uiSwitch?.setOn(false, animated: false)
+        }
+    }
 
+    
     func editOrNewElement(newElement: Element, idx: Int) {
         //handle new element or edit
         if findElementByIdx(idx) != nil {
@@ -201,6 +229,16 @@ extension TableViewController {
         }
         return nil
     }
+    
+    internal func findElementByMacAddr(_ macAddr: String) -> Element? {
+        for element in cellElements {
+            if element.macAddr == macAddr {
+                return element
+            }
+        }
+        return nil
+    }
+
     
     internal func UpdateElementByIdx(_ idx: Int, name: String, macAddr: String) -> Bool {
         if idx < cellElements.count {

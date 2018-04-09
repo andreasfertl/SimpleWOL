@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26049CF52077847300D7260E /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26049CF32077847300D7260E /* Interface.storyboard */; };
+		26049CF72077847500D7260E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26049CF62077847500D7260E /* Assets.xcassets */; };
+		26049CFE2077847500D7260E /* Simple WOL WK Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 26049CFD2077847500D7260E /* Simple WOL WK Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		26049D032077847500D7260E /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26049D022077847500D7260E /* InterfaceController.swift */; };
+		26049D052077847500D7260E /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26049D042077847500D7260E /* ExtensionDelegate.swift */; };
+		26049D072077847500D7260E /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26049D062077847500D7260E /* NotificationController.swift */; };
+		26049D092077847600D7260E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26049D082077847600D7260E /* Assets.xcassets */; };
+		26049D0E2077847600D7260E /* Simple WOL WK.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 26049CF12077847200D7260E /* Simple WOL WK.app */; };
+		26049D1B207A436600D7260E /* ConnectivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26049D1A207A436600D7260E /* ConnectivityHandler.swift */; };
 		26507230206F8D3C007A3F6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2650722F206F8D3C007A3F6F /* AppDelegate.swift */; };
 		26507235206F8D3C007A3F6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26507233206F8D3C007A3F6F /* Main.storyboard */; };
 		26507237206F8D3C007A3F6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26507236206F8D3C007A3F6F /* Assets.xcassets */; };
@@ -20,7 +29,64 @@
 		2683A8F52073728800A03E69 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2683A8F42073728800A03E69 /* Settings.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		26049CFF2077847500D7260E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 26507224206F8D3C007A3F6F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 26049CFC2077847500D7260E;
+			remoteInfo = "Simple WOL WK Extension";
+		};
+		26049D0C2077847600D7260E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 26507224206F8D3C007A3F6F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 26049CF02077847200D7260E;
+			remoteInfo = "Simple WOL WK";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		26049D142077847600D7260E /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				26049CFE2077847500D7260E /* Simple WOL WK Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		26049D162077847600D7260E /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				26049D0E2077847600D7260E /* Simple WOL WK.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		26049CF12077847200D7260E /* Simple WOL WK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple WOL WK.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		26049CF42077847300D7260E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		26049CF62077847500D7260E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		26049CF82077847500D7260E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		26049CFD2077847500D7260E /* Simple WOL WK Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Simple WOL WK Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		26049D022077847500D7260E /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		26049D042077847500D7260E /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		26049D062077847500D7260E /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		26049D082077847600D7260E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		26049D0A2077847600D7260E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		26049D0B2077847600D7260E /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		26049D17207789D200D7260E /* Simple WOL WK Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Simple WOL WK Extension.entitlements"; sourceTree = "<group>"; };
+		26049D18207789E300D7260E /* Simple WOL WK.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Simple WOL WK.entitlements"; sourceTree = "<group>"; };
+		26049D19207789E900D7260E /* Simple WOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Simple WOL.entitlements"; sourceTree = "<group>"; };
+		26049D1A207A436600D7260E /* ConnectivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityHandler.swift; sourceTree = "<group>"; };
 		2650722C206F8D3C007A3F6F /* Simple WOL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple WOL.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2650722F206F8D3C007A3F6F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26507234206F8D3C007A3F6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -37,6 +103,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		26049CFA2077847500D7260E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		26507229206F8D3C007A3F6F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -47,10 +120,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		26049CF22077847200D7260E /* Simple WOL WK */ = {
+			isa = PBXGroup;
+			children = (
+				26049D18207789E300D7260E /* Simple WOL WK.entitlements */,
+				26049CF32077847300D7260E /* Interface.storyboard */,
+				26049CF62077847500D7260E /* Assets.xcassets */,
+				26049CF82077847500D7260E /* Info.plist */,
+			);
+			path = "Simple WOL WK";
+			sourceTree = "<group>";
+		};
+		26049D012077847500D7260E /* Simple WOL WK Extension */ = {
+			isa = PBXGroup;
+			children = (
+				26049D17207789D200D7260E /* Simple WOL WK Extension.entitlements */,
+				26049D022077847500D7260E /* InterfaceController.swift */,
+				26049D042077847500D7260E /* ExtensionDelegate.swift */,
+				26049D062077847500D7260E /* NotificationController.swift */,
+				26049D082077847600D7260E /* Assets.xcassets */,
+				26049D0A2077847600D7260E /* Info.plist */,
+				26049D0B2077847600D7260E /* PushNotificationPayload.apns */,
+			);
+			path = "Simple WOL WK Extension";
+			sourceTree = "<group>";
+		};
 		26507223206F8D3C007A3F6F = {
 			isa = PBXGroup;
 			children = (
 				2650722E206F8D3C007A3F6F /* Simple WOL */,
+				26049CF22077847200D7260E /* Simple WOL WK */,
+				26049D012077847500D7260E /* Simple WOL WK Extension */,
 				2650722D206F8D3C007A3F6F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,6 +159,8 @@
 			isa = PBXGroup;
 			children = (
 				2650722C206F8D3C007A3F6F /* Simple WOL.app */,
+				26049CF12077847200D7260E /* Simple WOL WK.app */,
+				26049CFD2077847500D7260E /* Simple WOL WK Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,6 +168,7 @@
 		2650722E206F8D3C007A3F6F /* Simple WOL */ = {
 			isa = PBXGroup;
 			children = (
+				26049D19207789E900D7260E /* Simple WOL.entitlements */,
 				26507245206F90A0007A3F6F /* Program */,
 				26507242206F8F0F007A3F6F /* VC */,
 				26507241206F8F0B007A3F6F /* Models */,
@@ -102,6 +205,7 @@
 				2650724A206F90E4007A3F6F /* AwakeProtocol.swift */,
 				2683A8F2207284AC00A03E69 /* ViewControllerProtocol.swift */,
 				2683A8F42073728800A03E69 /* Settings.swift */,
+				26049D1A207A436600D7260E /* ConnectivityHandler.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -109,6 +213,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		26049CF02077847200D7260E /* Simple WOL WK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 26049D152077847600D7260E /* Build configuration list for PBXNativeTarget "Simple WOL WK" */;
+			buildPhases = (
+				26049CEF2077847200D7260E /* Resources */,
+				26049D142077847600D7260E /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				26049D002077847500D7260E /* PBXTargetDependency */,
+			);
+			name = "Simple WOL WK";
+			productName = "Simple WOL WK";
+			productReference = 26049CF12077847200D7260E /* Simple WOL WK.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		26049CFC2077847500D7260E /* Simple WOL WK Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 26049D132077847600D7260E /* Build configuration list for PBXNativeTarget "Simple WOL WK Extension" */;
+			buildPhases = (
+				26049CF92077847500D7260E /* Sources */,
+				26049CFA2077847500D7260E /* Frameworks */,
+				26049CFB2077847500D7260E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Simple WOL WK Extension";
+			productName = "Simple WOL WK Extension";
+			productReference = 26049CFD2077847500D7260E /* Simple WOL WK Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		2650722B206F8D3C007A3F6F /* Simple WOL */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2650723E206F8D3C007A3F6F /* Build configuration list for PBXNativeTarget "Simple WOL" */;
@@ -116,10 +254,12 @@
 				26507228206F8D3C007A3F6F /* Sources */,
 				26507229206F8D3C007A3F6F /* Frameworks */,
 				2650722A206F8D3C007A3F6F /* Resources */,
+				26049D162077847600D7260E /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				26049D0D2077847600D7260E /* PBXTargetDependency */,
 			);
 			name = "Simple WOL";
 			productName = "Simple WOL";
@@ -132,13 +272,36 @@
 		26507224206F8D3C007A3F6F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Andreas Fertl";
 				TargetAttributes = {
+					26049CF02077847200D7260E = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					26049CFC2077847500D7260E = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					2650722B206F8D3C007A3F6F = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -156,11 +319,30 @@
 			projectRoot = "";
 			targets = (
 				2650722B206F8D3C007A3F6F /* Simple WOL */,
+				26049CF02077847200D7260E /* Simple WOL WK */,
+				26049CFC2077847500D7260E /* Simple WOL WK Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		26049CEF2077847200D7260E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				26049CF72077847500D7260E /* Assets.xcassets in Resources */,
+				26049CF52077847300D7260E /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		26049CFB2077847500D7260E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				26049D092077847600D7260E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2650722A206F8D3C007A3F6F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -174,6 +356,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		26049CF92077847500D7260E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				26049D072077847500D7260E /* NotificationController.swift in Sources */,
+				26049D052077847500D7260E /* ExtensionDelegate.swift in Sources */,
+				26049D032077847500D7260E /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		26507228206F8D3C007A3F6F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -185,13 +377,35 @@
 				26507247206F90B2007A3F6F /* Element.swift in Sources */,
 				2683A8F3207284AC00A03E69 /* ViewControllerProtocol.swift in Sources */,
 				2650724B206F90E4007A3F6F /* AwakeProtocol.swift in Sources */,
+				26049D1B207A436600D7260E /* ConnectivityHandler.swift in Sources */,
 				26507249206F90D0007A3F6F /* Awake.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		26049D002077847500D7260E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 26049CFC2077847500D7260E /* Simple WOL WK Extension */;
+			targetProxy = 26049CFF2077847500D7260E /* PBXContainerItemProxy */;
+		};
+		26049D0D2077847600D7260E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 26049CF02077847200D7260E /* Simple WOL WK */;
+			targetProxy = 26049D0C2077847600D7260E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		26049CF32077847300D7260E /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				26049CF42077847300D7260E /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		26507233206F8D3C007A3F6F /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -211,6 +425,88 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		26049D0F2077847600D7260E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = "Simple WOL WK/Simple WOL WK.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9JM79Z6TH6;
+				IBSC_MODULE = Simple_WOL_WK_Extension;
+				INFOPLIST_FILE = "Simple WOL WK/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "Kongsberg-Software-House.Simple-WOL.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Debug;
+		};
+		26049D102077847600D7260E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = "Simple WOL WK/Simple WOL WK.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9JM79Z6TH6;
+				IBSC_MODULE = Simple_WOL_WK_Extension;
+				INFOPLIST_FILE = "Simple WOL WK/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "Kongsberg-Software-House.Simple-WOL.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Release;
+		};
+		26049D112077847600D7260E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = "Simple WOL WK Extension/Simple WOL WK Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9JM79Z6TH6;
+				INFOPLIST_FILE = "Simple WOL WK Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Kongsberg-Software-House.Simple-WOL.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Debug;
+		};
+		26049D122077847600D7260E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = "Simple WOL WK Extension/Simple WOL WK Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9JM79Z6TH6;
+				INFOPLIST_FILE = "Simple WOL WK Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Kongsberg-Software-House.Simple-WOL.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Release;
+		};
 		2650723C206F8D3C007A3F6F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -326,6 +622,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Simple WOL/Simple WOL.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9JM79Z6TH6;
 				INFOPLIST_FILE = "Simple WOL/Info.plist";
@@ -341,6 +638,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Simple WOL/Simple WOL.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9JM79Z6TH6;
 				INFOPLIST_FILE = "Simple WOL/Info.plist";
@@ -355,6 +653,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		26049D132077847600D7260E /* Build configuration list for PBXNativeTarget "Simple WOL WK Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26049D112077847600D7260E /* Debug */,
+				26049D122077847600D7260E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		26049D152077847600D7260E /* Build configuration list for PBXNativeTarget "Simple WOL WK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26049D0F2077847600D7260E /* Debug */,
+				26049D102077847600D7260E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		26507227206F8D3C007A3F6F /* Build configuration list for PBXProject "Simple WOL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

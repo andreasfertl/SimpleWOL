@@ -28,7 +28,7 @@ class Configuration : ConfigurationProtocol {
             
             userSettings.set(array, forKey: idxString)
         }
-        
+
         //and we need to keep our number of elements up to data, could been changed
         userSettings.set(configElements.count, forKey: numberOfElementsKeyword)
     }
