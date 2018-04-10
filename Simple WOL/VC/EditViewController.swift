@@ -19,6 +19,7 @@ class EditViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var uiNameTextBox: UITextField!
     @IBOutlet weak var uiMACaddrTextBox: UITextField!
     @IBOutlet weak var uiFormatLabel: UILabel!
+    @IBOutlet weak var uiShowOnAppleWatchSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,12 @@ class EditViewController: UIViewController, UITextFieldDelegate {
         } else {
             uiTitle.text = "Edit host"
         }
+        if elementToEdit?.showOnAppleWatch == true {
+            uiShowOnAppleWatchSwitch.setOn(true, animated: false)
+        } else {
+            uiShowOnAppleWatchSwitch.setOn(false, animated: false)
+        }
+
     }
     
     @IBAction func cancelButon(_ sender: Any) {
@@ -64,7 +71,7 @@ class EditViewController: UIViewController, UITextFieldDelegate {
         if let name = uiNameTextBox.text, let macAddr = uiMACaddrTextBox.text  {
             let macAddr = macAddr.uppercased()
             if validateMACAddrInput(macAddr: macAddr){
-                let elmentToSave = Element(name: name, macAddr: macAddr)
+                let elmentToSave = Element(name: name, macAddr: macAddr, showOnAppleWatch: uiShowOnAppleWatchSwitch.isOn)
                 switchViews?.switchTo(viewController: .TableView, element: elmentToSave, idx: idx, newElement: false)
                 return
             } else { // not ok
@@ -74,9 +81,11 @@ class EditViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-
-
-
+    
+    
+    @IBAction func uiSwitchShowOnAppleWatch(_ sender: UISwitch) {
+        elementToEdit?.showOnAppleWatch = sender.isOn
+    }
 }
 
 extension EditViewController {
@@ -89,7 +98,7 @@ extension EditViewController {
         if let element = element {
             self.newElement = newElement
             self.idx = idx
-            elementToEdit = Element(name: element.name, macAddr: element.macAddr)
+            elementToEdit = Element(name: element.name, macAddr: element.macAddr, showOnAppleWatch: element.showOnAppleWatch)
         }
     }
     

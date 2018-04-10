@@ -18,6 +18,7 @@ class TableViewController: UITableViewController, watchProtocol {
     var switchViews: ViewControllerProtocol?
     var buttonMode: ButtonType = ButtonType.switchButton
     var myEditViewController: EditViewController?
+    var watchpushProtocol: watchPushProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,15 +34,8 @@ class TableViewController: UITableViewController, watchProtocol {
         
         if let configuration = configuration?.getConfiguration() {
             for element in configuration {
-               addElement(name: element.name, macAddr: element.macAddr)
+                addElement(name: element.name, macAddr: element.macAddr, showOnAppleWatch: element.showOnAppleWatch)
             }
-            
-            if configuration.count > 1 { //the first one to be on apple watch
-                configuration[0].showOnAppleWatch = true
-                if configuration[0].showOnAppleWatch {
-                }
-            }
-        
         }
         
         
@@ -76,7 +70,7 @@ class TableViewController: UITableViewController, watchProtocol {
     }
     
     @IBAction func NewButton(_ sender: Any) {
-        switchViews?.switchTo(viewController: .EditView, element: Element(name: "name", macAddr: "00:11:22:33:44:55"), idx: genNextIdx(), newElement: true)
+        switchViews?.switchTo(viewController: .EditView, element: Element(name: "name", macAddr: "00:11:22:33:44:55", showOnAppleWatch: false), idx: genNextIdx(), newElement: true)
     }
 
     
@@ -139,17 +133,18 @@ class TableViewController: UITableViewController, watchProtocol {
 
 extension TableViewController {
     
-    func setProtocols(configuration: ConfigurationProtocol?, buttonDelegate: AwakeProtocol, switchViews: ViewControllerProtocol) {
+    func setProtocols(configuration: ConfigurationProtocol?, buttonDelegate: AwakeProtocol, switchViews: ViewControllerProtocol, watchpushProtocol: watchPushProtocol?) {
         self.awake = buttonDelegate
         self.switchViews = switchViews
         self.configuration = configuration
+        self.watchpushProtocol = watchpushProtocol
     }
     
     func getConfiguredMachines() -> [machine]? {
         var machines = [machine]()
         
         for element in cellElements {
-            machines.append(machine(macAddr: element.macAddr, name: element.name))
+            machines.append(machine(macAddr: element.macAddr, name: element.name, showOnAppleWatch: element.showOnAppleWatch))
         }
         return machines
     }
@@ -197,30 +192,47 @@ extension TableViewController {
         //handle new element or edit
         if findElementByIdx(idx) != nil {
             //there is an already exisiting one -> just update
-            let updated = UpdateElementByIdx(idx, name: newElement.name, macAddr: newElement.macAddr)
+            let updated = UpdateElementByIdx(idx, name: newElement.name, macAddr: newElement.macAddr, showOnAppleWatch: newElement.showOnAppleWatch)
             if updated {
                 let retVal = findElementByIdx(idx)
                 configuration?.saveConfig(element: retVal, idx: idx)
             }
         } else {
             //doesn´t exist - add the new one
-            addElement(name: newElement.name, macAddr: newElement.macAddr, buttonType: buttonMode)
+            addElement(name: newElement.name, macAddr: newElement.macAddr, buttonType: buttonMode, showOnAppleWatch: newElement.showOnAppleWatch)
             //and save
             let retVal = findElementByIdx(idx)
             configuration?.saveConfig(element: retVal, idx: idx)
         }
         
+        if newElement.showOnAppleWatch {
+            //only one at the moment
+            for index in 0..<cellElements.count {
+                if index != idx {
+                    //since i am now shown on apple watch remove it here if active
+                    if cellElements[index].showOnAppleWatch {
+                        let updated = UpdateElementByIdx(index, name: cellElements[index].name, macAddr: cellElements[index].macAddr, showOnAppleWatch: false)
+                        if updated {
+                            let retVal = findElementByIdx(index)
+                            configuration?.saveConfig(element: retVal, idx: index)
+                        }
+                    }
+                }
+            }
+        }
+
+        
         tableView.reloadData()
     }
 
-    internal func addElement(name: String, macAddr: String)
+    internal func addElement(name: String, macAddr: String, showOnAppleWatch: Bool)
     {
-        cellElements.append(Element(name: name, macAddr: macAddr, buttonType: ButtonType.switchButton, uiSwitch: generateSwitch(idx: genNextIdx())))
+        cellElements.append(Element(name: name, macAddr: macAddr, buttonType: ButtonType.switchButton, uiSwitch: generateSwitch(idx: genNextIdx()), showOnAppleWatch: showOnAppleWatch))
     }
 
-    internal func addElement(name: String, macAddr: String, buttonType: ButtonType)
+    internal func addElement(name: String, macAddr: String, buttonType: ButtonType, showOnAppleWatch: Bool)
     {
-        cellElements.append(Element(name: name, macAddr: macAddr, buttonType: buttonType, uiSwitch: generateSwitch(idx: genNextIdx())))        
+        cellElements.append(Element(name: name, macAddr: macAddr, buttonType: buttonType, uiSwitch: generateSwitch(idx: genNextIdx()), showOnAppleWatch: showOnAppleWatch))
     }
 
     internal func findElementByIdx(_ idx: Int) -> Element? {
@@ -240,7 +252,7 @@ extension TableViewController {
     }
 
     
-    internal func UpdateElementByIdx(_ idx: Int, name: String, macAddr: String) -> Bool {
+    internal func UpdateElementByIdx(_ idx: Int, name: String, macAddr: String, showOnAppleWatch: Bool) -> Bool {
         if idx < cellElements.count {
                 var changed = false
                 if cellElements[idx].name != name {
@@ -250,6 +262,15 @@ extension TableViewController {
                 if cellElements[idx].macAddr != macAddr {
                     cellElements[idx].macAddr = macAddr
                     changed = true
+                }
+                if cellElements[idx].showOnAppleWatch != showOnAppleWatch {
+                    cellElements[idx].showOnAppleWatch = showOnAppleWatch
+                    changed = true
+                    
+                    //this one has to be shown on apple watch inform it
+                    if showOnAppleWatch {
+                        self.watchpushProtocol?.updateApplicationContext(element: cellElements[idx])
+                    }
                 }
                 return changed
         }

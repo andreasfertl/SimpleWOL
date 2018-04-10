@@ -38,7 +38,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ViewControllerProtocol {
         editViewController = window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "Edit") as? EditViewController
 
         //connect protocols
-        tableViewController?.setProtocols(configuration: configuration, buttonDelegate: awakeHandler, switchViews: self)
+        if connectivityHandler.isAvailable() {
+            tableViewController?.setProtocols(configuration: configuration, buttonDelegate: awakeHandler, switchViews: self, watchpushProtocol: self.connectivityHandler)
+        } else {
+            tableViewController?.setProtocols(configuration: configuration, buttonDelegate: awakeHandler, switchViews: self, watchpushProtocol: nil)
+        }
         editViewController?.setProtocols(switchViews: self)
         
         if connectivityHandler.isAvailable() {

@@ -99,8 +99,13 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7xS-do-KWK">
+                                <rect key="frame" x="16" y="205" width="343" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4j8-PK-Wke">
-                                <rect key="frame" x="16" y="243" width="343" height="30"/>
+                                <rect key="frame" x="16" y="294" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.56031829119999998" blue="0.0" alpha="0.63837756849315064" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Save">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -109,13 +114,8 @@
                                     <action selector="saveButton:" destination="0ca-w4-nc7" eventType="touchUpInside" id="n98-zs-yiU"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7xS-do-KWK">
-                                <rect key="frame" x="16" y="205" width="343" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ZN-v5-7Lg">
-                                <rect key="frame" x="16" y="291" width="343" height="30"/>
+                                <rect key="frame" x="16" y="342" width="343" height="30"/>
                                 <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="0.53100920376712324" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -124,18 +124,33 @@
                                     <action selector="cancelButon:" destination="0ca-w4-nc7" eventType="touchUpInside" id="FgR-uQ-tqn"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show on Apple Watch (only one possible)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAv-jD-fsW">
+                                <rect key="frame" x="14" y="250" width="251" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" restorationIdentifier="uiSwitchShowOnAppleWatch" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KdO-cD-D5i">
+                                <rect key="frame" x="308" y="243" width="51" height="31"/>
+                                <connections>
+                                    <action selector="uiSwitchShowOnAppleWatch:" destination="0ca-w4-nc7" eventType="valueChanged" id="cVu-Nq-uS1"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" red="0.53396047284645776" green="0.84302252430814784" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="9FL-Kh-eya" firstAttribute="top" secondItem="g9h-p0-7pS" secondAttribute="top" constant="18" id="0bg-QX-G6P"/>
                             <constraint firstItem="quY-lk-ZcB" firstAttribute="leading" secondItem="BrU-zH-AFW" secondAttribute="trailing" constant="76" id="3za-g1-5eN"/>
                             <constraint firstItem="g9h-p0-7pS" firstAttribute="trailing" secondItem="9FL-Kh-eya" secondAttribute="trailing" constant="157.5" id="7fm-k0-5fj"/>
+                            <constraint firstItem="dAv-jD-fsW" firstAttribute="top" secondItem="7xS-do-KWK" secondAttribute="bottom" constant="27" id="8qj-lI-aSy"/>
                             <constraint firstItem="4ZN-v5-7Lg" firstAttribute="leading" secondItem="g9h-p0-7pS" secondAttribute="leading" constant="16" id="CnX-6o-RSJ"/>
                             <constraint firstItem="quY-lk-ZcB" firstAttribute="top" secondItem="9FL-Kh-eya" secondAttribute="bottom" constant="36" id="Dab-KO-I04"/>
                             <constraint firstItem="g9h-p0-7pS" firstAttribute="trailing" secondItem="4ZN-v5-7Lg" secondAttribute="trailing" constant="16" id="EFZ-oE-XJe"/>
                             <constraint firstItem="qyf-uT-LsF" firstAttribute="leading" secondItem="qtj-AS-kGT" secondAttribute="trailing" constant="14" id="Fd4-lk-9bc"/>
+                            <constraint firstItem="KdO-cD-D5i" firstAttribute="top" secondItem="7xS-do-KWK" secondAttribute="bottom" constant="20" id="Fif-i0-q9c"/>
                             <constraint firstItem="4ZN-v5-7Lg" firstAttribute="top" secondItem="4j8-PK-Wke" secondAttribute="bottom" constant="18" id="Ida-l6-Rxp"/>
                             <constraint firstItem="g9h-p0-7pS" firstAttribute="trailing" secondItem="quY-lk-ZcB" secondAttribute="trailing" constant="16" id="JDG-L9-Aj9"/>
+                            <constraint firstItem="g9h-p0-7pS" firstAttribute="trailing" secondItem="KdO-cD-D5i" secondAttribute="trailing" constant="18" id="JSD-17-Jyt"/>
                             <constraint firstItem="4j8-PK-Wke" firstAttribute="leading" secondItem="g9h-p0-7pS" secondAttribute="leading" constant="16" id="MNf-b6-4ag"/>
                             <constraint firstItem="qtj-AS-kGT" firstAttribute="top" secondItem="BrU-zH-AFW" secondAttribute="bottom" constant="31" id="Mte-fw-m9a"/>
                             <constraint firstItem="quY-lk-ZcB" firstAttribute="leading" secondItem="BrU-zH-AFW" secondAttribute="trailing" constant="76" id="RDv-qb-iTj"/>
@@ -147,10 +162,11 @@
                             <constraint firstItem="g9h-p0-7pS" firstAttribute="trailing" secondItem="7xS-do-KWK" secondAttribute="trailing" constant="16" id="fcY-Lv-b7C"/>
                             <constraint firstItem="7xS-do-KWK" firstAttribute="leading" secondItem="g9h-p0-7pS" secondAttribute="leading" constant="16" id="gDM-YA-b3L"/>
                             <constraint firstItem="g9h-p0-7pS" firstAttribute="trailing" secondItem="qyf-uT-LsF" secondAttribute="trailing" constant="16" id="gEO-Cy-0pj"/>
-                            <constraint firstItem="4j8-PK-Wke" firstAttribute="top" secondItem="7xS-do-KWK" secondAttribute="bottom" constant="20" id="hN1-A5-2Ah"/>
                             <constraint firstItem="9FL-Kh-eya" firstAttribute="leading" secondItem="g9h-p0-7pS" secondAttribute="leading" constant="16" id="pB6-Hb-mBK"/>
                             <constraint firstItem="qyf-uT-LsF" firstAttribute="top" secondItem="quY-lk-ZcB" secondAttribute="bottom" constant="22" id="qNR-9e-JM2"/>
+                            <constraint firstItem="KdO-cD-D5i" firstAttribute="leading" secondItem="dAv-jD-fsW" secondAttribute="trailing" constant="43" id="rMR-qh-gg7"/>
                             <constraint firstItem="7xS-do-KWK" firstAttribute="top" secondItem="qtj-AS-kGT" secondAttribute="bottom" constant="24" id="sT7-ff-Lc1"/>
+                            <constraint firstItem="4j8-PK-Wke" firstAttribute="top" secondItem="KdO-cD-D5i" secondAttribute="bottom" constant="20" id="vOY-jv-scq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="g9h-p0-7pS"/>
                     </view>
@@ -158,6 +174,7 @@
                         <outlet property="uiFormatLabel" destination="7xS-do-KWK" id="cZg-MF-DtD"/>
                         <outlet property="uiMACaddrTextBox" destination="qyf-uT-LsF" id="Fcp-7M-ZeG"/>
                         <outlet property="uiNameTextBox" destination="quY-lk-ZcB" id="ce0-2Y-g2f"/>
+                        <outlet property="uiShowOnAppleWatchSwitch" destination="KdO-cD-D5i" id="ZkG-PI-Owh"/>
                         <outlet property="uiTitle" destination="9FL-Kh-eya" id="rLY-U3-v6M"/>
                     </connections>
                 </viewController>

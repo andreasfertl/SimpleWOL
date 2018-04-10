@@ -23,7 +23,8 @@ class Configuration : ConfigurationProtocol {
     func storeAllElements()  {
         //store all elements
         for index in 0 ..< configElements.count {
-            let array = [configElements[index].name, configElements[index].macAddr]
+            let showOnAppleWatch = configElements[index].showOnAppleWatch ? "true" : "false"
+            let array = [configElements[index].name, configElements[index].macAddr, showOnAppleWatch]
             let idxString = String(index)
             
             userSettings.set(array, forKey: idxString)
@@ -61,10 +62,16 @@ class Configuration : ConfigurationProtocol {
 
         let savedArray = userSettings.object(forKey: keyString) as? [String]
         if let savedArray = savedArray {
-            if savedArray.count == 2 {
+            if savedArray.count == 3 {
                 let name = savedArray[0]
                 let macAddr = savedArray[1]
-                return Element(name: name, macAddr: macAddr)
+                let showOnAppleWatch = savedArray[2]
+                if showOnAppleWatch == "true" {
+                    return Element(name: name, macAddr: macAddr, showOnAppleWatch: true)
+                } else {
+                    return Element(name: name, macAddr: macAddr, showOnAppleWatch: false)
+                }
+                
             }
         }
         return nil

@@ -12,14 +12,18 @@ import WatchConnectivity
 struct machine {
     var macAddr: String
     var name: String
+    var showOnAppleWatch: Bool
 }
 
 protocol watchProtocol: class {
     func getConfiguredMachines() -> [machine]?
     func awakeThis(macAddr: String)
 }
+protocol watchPushProtocol: class {
+    func updateApplicationContext(element: Element)
+}
 
-class ConnectivityHandler : NSObject, WCSessionDelegate {
+class ConnectivityHandler : NSObject, WCSessionDelegate, watchPushProtocol {
     
     var session = WCSession.default
     var watchPl : watchProtocol?
@@ -58,8 +62,12 @@ class ConnectivityHandler : NSObject, WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         if message["get"] as? String == "machine" {
             if let machines = watchPl?.getConfiguredMachines() {
-                if machines.count > 0 {
-                    replyHandler(["machine" : machines[0].name + "#" + machines[0].macAddr])
+                for machine in machines {
+                    if machine.showOnAppleWatch {
+                        replyHandler(["machine" : machine.name + "#" + machine.macAddr])
+                        //only the first one is on AppleWatch
+                        return
+                    }
                 }
             }
         } else if message["awake"] != nil {
@@ -70,4 +78,11 @@ class ConnectivityHandler : NSObject, WCSessionDelegate {
 
     }
     
+    func updateApplicationContext(element: Element) {
+        do {
+            try session.updateApplicationContext(["machine" : element.name + "#" + element.macAddr])
+        } catch let error as NSError {
+            NSLog("Updating the context failed: " + error.localizedDescription)
+        }
+    }
 }

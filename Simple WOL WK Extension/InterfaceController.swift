@@ -30,21 +30,36 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         retrieveConfig()
     }
     
+    
+    func getMessage(msg: String) -> (String, String) {
+        let machine : [String] = msg.components(separatedBy: "#")
+        var name = ""
+        var macAddr = ""
+        
+        if machine.count > 0 { //name
+            name = machine[0]
+        }
+        if machine.count > 1 { //machaddr
+            macAddr = machine[1]
+        }
+        return (name, macAddr)
+    }
+    
+    func updateMachine(name: String, macAddr: String) {
+        self.pcName = name
+        self.uiLabelPCName.setText(self.pcName)
+        self.macAddr = macAddr
+    }
+    
+    
     func retrieveConfig() {
         session?.sendMessage(["get" : "machine"],
                              replyHandler: { (response) in
                                 DispatchQueue.main.async {
                                     //part1 name, part2 macAddr
                                     if response["machine"] != nil {
-                                        let name = response["machine"] as! String
-                                        let machine : [String] = name.components(separatedBy: "#")
-                                        if machine.count > 0 { //name
-                                            self.pcName = machine[0]
-                                            self.uiLabelPCName.setText(self.pcName)
-                                        }
-                                        if machine.count > 1 { //machaddr
-                                            self.macAddr = machine[1]
-                                        }
+                                        let (name, macAddr) = self.getMessage(msg: response["machine"] as! String)
+                                        self.updateMachine(name: name, macAddr: macAddr)
                                     }
                                 }
                              },
@@ -94,6 +109,12 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
     }
-
+    
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        DispatchQueue.main.async {
+            let (name, macAddr) = self.getMessage(msg: applicationContext["machine"] as! String)
+            self.updateMachine(name: name, macAddr: macAddr)
+        }
+    }
 
 }
