@@ -27,8 +27,8 @@ class TableViewController: UITableViewController, watchProtocol {
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         
-        navigationController?.navigationBar.tintColor = UIColor.black
-        navigationController?.navigationBar.barStyle = UIBarStyle.default
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.barStyle = UIBarStyle.blackTranslucent
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(EditButton(_:)))
         
@@ -175,7 +175,7 @@ extension TableViewController {
                     Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
                         element.subtitle = ""
                         element.uiSwitch!.setOn(true, animated: true)
-                        element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 0.5)
+                        element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)
                         element.invokedRequest = false
                         self.tableView.reloadData()
                     }
@@ -286,9 +286,9 @@ extension TableViewController {
         switchView.setOn(true, animated: true)
         switchView.tag = idx
         switchView.addTarget(self, action: #selector(self.switchChanged(_:)), for: .valueChanged)
-        switchView.onTintColor = #colorLiteral(red: 0.5339604728, green: 0.8430225243, blue: 1, alpha: 1)
-        switchView.tintColor = #colorLiteral(red: 0.5339604728, green: 0.8430225243, blue: 1, alpha: 1)
-        switchView.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 0.6383775685)
+        switchView.onTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        switchView.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        switchView.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)
         
         return switchView
     }

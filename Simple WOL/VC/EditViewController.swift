@@ -41,7 +41,10 @@ class EditViewController: UIViewController, UITextFieldDelegate {
         } else {
             uiShowOnAppleWatchSwitch.setOn(false, animated: false)
         }
-
+        
+        uiShowOnAppleWatchSwitch.onTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)
+        uiShowOnAppleWatchSwitch.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        uiShowOnAppleWatchSwitch.thumbTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
     
     @IBAction func cancelButon(_ sender: Any) {
