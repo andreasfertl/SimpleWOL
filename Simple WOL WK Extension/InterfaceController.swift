@@ -105,15 +105,13 @@ extension InterfaceController {
     
     func sendAwake(macAddr: String?) {
         if let macAddr = macAddr {
+            self.uiLabelPCName.setText("sent awake signal")
+            self.resetName(self.machine?.pcName)
             //send locally
             AwakeHandler().awakeOnBackgroundThread(macAddr: macAddr)
             //and remote
             session?.sendMessage(["awake" : macAddr],
                                  replyHandler: { (response) in
-                                    DispatchQueue.main.async {
-                                        self.uiLabelPCName.setText("sent awake")
-                                        self.resetName(self.machine?.pcName)
-                                    }
                                  },
                                  errorHandler: { (error) in
                                     DispatchQueue.main.async {

@@ -173,17 +173,21 @@ extension TableViewController {
                     }
                     self.tableView.reloadData()
                     Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
-                        element.subtitle = ""
-                        element.uiSwitch!.setOn(true, animated: true)
-                        element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)
-                        element.invokedRequest = false
-                        self.tableView.reloadData()
+                        DispatchQueue.main.async {
+                            element.subtitle = ""
+                            element.uiSwitch!.setOn(true, animated: true)
+                            element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)
+                            element.invokedRequest = false
+                            self.tableView.reloadData()
+                        }
                     }
                 }
             })
         } else {
-            //just set it back since we are busy
-            element.uiSwitch?.setOn(false, animated: false)
+            DispatchQueue.main.async {
+                //just set it back since we are busy
+                element.uiSwitch?.setOn(false, animated: false)
+            }
         }
     }
 
