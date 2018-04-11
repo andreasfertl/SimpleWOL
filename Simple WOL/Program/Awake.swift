@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 protocol AwakeProtocol: class {
     func awakeOnBackgroundThread(macAddr: String, progressHandler: @escaping(Int) -> (), finishedHandler: @escaping(Bool) -> ())
     func awakeOnBackgroundThread(macAddr: String)
