@@ -36,13 +36,13 @@ class AwakeHandler : AwakeProtocol {
             self.awake(macAddr: macAddr, progressHandler: progressHandler, finishedHandler: finishedHandler)
         }
     }
-    
+
     func awakeOnBackgroundThread(macAddr: String) {
         DispatchQueue.global(qos: .background).async {
             self.awake(macAddr: macAddr)
         }
     }
-    
+
 }
 
 class AwakeMe {

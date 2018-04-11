@@ -16,6 +16,7 @@
 		26049D092077847600D7260E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26049D082077847600D7260E /* Assets.xcassets */; };
 		26049D0E2077847600D7260E /* Simple WOL WK.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 26049CF12077847200D7260E /* Simple WOL WK.app */; };
 		26049D1B207A436600D7260E /* ConnectivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26049D1A207A436600D7260E /* ConnectivityHandler.swift */; };
+		26174CED207E16460080FB20 /* Awake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26174CEC207E16460080FB20 /* Awake.swift */; };
 		26507230206F8D3C007A3F6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2650722F206F8D3C007A3F6F /* AppDelegate.swift */; };
 		26507235206F8D3C007A3F6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26507233206F8D3C007A3F6F /* Main.storyboard */; };
 		26507237206F8D3C007A3F6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26507236206F8D3C007A3F6F /* Assets.xcassets */; };
@@ -23,7 +24,6 @@
 		26507244206F8F26007A3F6F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26507243206F8F26007A3F6F /* TableViewController.swift */; };
 		26507247206F90B2007A3F6F /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26507246206F90B2007A3F6F /* Element.swift */; };
 		26507249206F90D0007A3F6F /* Awake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26507248206F90D0007A3F6F /* Awake.swift */; };
-		2650724B206F90E4007A3F6F /* AwakeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2650724A206F90E4007A3F6F /* AwakeProtocol.swift */; };
 		2683A8F12072716A00A03E69 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2683A8F02072716A00A03E69 /* EditViewController.swift */; };
 		2683A8F3207284AC00A03E69 /* ViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2683A8F2207284AC00A03E69 /* ViewControllerProtocol.swift */; };
 		2683A8F52073728800A03E69 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2683A8F42073728800A03E69 /* Settings.swift */; };
@@ -87,6 +87,7 @@
 		26049D18207789E300D7260E /* Simple WOL WK.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Simple WOL WK.entitlements"; sourceTree = "<group>"; };
 		26049D19207789E900D7260E /* Simple WOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Simple WOL.entitlements"; sourceTree = "<group>"; };
 		26049D1A207A436600D7260E /* ConnectivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityHandler.swift; sourceTree = "<group>"; };
+		26174CEC207E16460080FB20 /* Awake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Awake.swift; sourceTree = "<group>"; };
 		2650722C206F8D3C007A3F6F /* Simple WOL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple WOL.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2650722F206F8D3C007A3F6F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26507234206F8D3C007A3F6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -96,7 +97,6 @@
 		26507243206F8F26007A3F6F /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		26507246206F90B2007A3F6F /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		26507248206F90D0007A3F6F /* Awake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Awake.swift; sourceTree = "<group>"; };
-		2650724A206F90E4007A3F6F /* AwakeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwakeProtocol.swift; sourceTree = "<group>"; };
 		2683A8F02072716A00A03E69 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		2683A8F2207284AC00A03E69 /* ViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerProtocol.swift; sourceTree = "<group>"; };
 		2683A8F42073728800A03E69 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -141,6 +141,7 @@
 				26049D082077847600D7260E /* Assets.xcassets */,
 				26049D0A2077847600D7260E /* Info.plist */,
 				26049D0B2077847600D7260E /* PushNotificationPayload.apns */,
+				26174CEC207E16460080FB20 /* Awake.swift */,
 			);
 			path = "Simple WOL WK Extension";
 			sourceTree = "<group>";
@@ -202,7 +203,6 @@
 			children = (
 				26507246206F90B2007A3F6F /* Element.swift */,
 				26507248206F90D0007A3F6F /* Awake.swift */,
-				2650724A206F90E4007A3F6F /* AwakeProtocol.swift */,
 				2683A8F2207284AC00A03E69 /* ViewControllerProtocol.swift */,
 				2683A8F42073728800A03E69 /* Settings.swift */,
 				26049D1A207A436600D7260E /* ConnectivityHandler.swift */,
@@ -363,6 +363,7 @@
 				26049D072077847500D7260E /* NotificationController.swift in Sources */,
 				26049D052077847500D7260E /* ExtensionDelegate.swift in Sources */,
 				26049D032077847500D7260E /* InterfaceController.swift in Sources */,
+				26174CED207E16460080FB20 /* Awake.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +377,6 @@
 				2683A8F12072716A00A03E69 /* EditViewController.swift in Sources */,
 				26507247206F90B2007A3F6F /* Element.swift in Sources */,
 				2683A8F3207284AC00A03E69 /* ViewControllerProtocol.swift in Sources */,
-				2650724B206F90E4007A3F6F /* AwakeProtocol.swift in Sources */,
 				26049D1B207A436600D7260E /* ConnectivityHandler.swift in Sources */,
 				26507249206F90D0007A3F6F /* Awake.swift in Sources */,
 			);

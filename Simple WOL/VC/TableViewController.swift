@@ -157,7 +157,7 @@ extension TableViewController {
     
     func awakeThis(element: Element) {
         if !element.invokedRequest {
-            awake?.awake(macAddr: element.macAddr, progressHandler: { (count: Int) -> Void in
+            awake?.awakeOnBackgroundThread(macAddr: element.macAddr, progressHandler: { (count: Int) -> Void in
                 DispatchQueue.main.async {
                     element.uiSwitch!.thumbTintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
                     element.invokedRequest = true
