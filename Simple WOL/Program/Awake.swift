@@ -62,13 +62,12 @@ class AwakeMe {
     func createMagicPacket(macAddr: String) -> [CUnsignedChar] {
         var buffer = [CUnsignedChar]()
         
-        // Create header with 6 times 0xFF
         for _ in 1...6 {
             buffer.append(0xFF)
         }
         
         let mac = getMacFromString(macAddr: macAddr)
-        // Repeat MAC address 16 times
+       
         for _ in 1...16 {
             for macNibble in mac {
                 buffer.append(macNibble)

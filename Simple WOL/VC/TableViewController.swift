@@ -37,12 +37,6 @@ class TableViewController: UITableViewController, watchProtocol {
                 addElement(name: element.name, macAddr: element.macAddr, showOnAppleWatch: element.showOnAppleWatch)
             }
         }
-        
-        
-//        addElement(name: "DeveloperPc", macAddr: "94:C6:91:15:E6:D1")
-//        addElement(name: "MacbookAir",  macAddr: "84:38:35:55:51:66")
-//        addElement(name: "Macbook",     macAddr: "DC:A9:04:73:1E:4F")
-//        addElement(name: "AppleTV",     macAddr: "D0:03:4B:EA:0A:FA")
     }
 
 
